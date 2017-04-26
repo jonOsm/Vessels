@@ -1,0 +1,91 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PlayerController : MonoBehaviour {
+	public float hSpeed = 5f;
+	public float fSpeed = 5f;
+	public float jumpForce = 1000;
+	public float maxJumpTime = 0.75f;
+
+	private Rigidbody rb;
+
+	private float horizontalAxis;
+	private float forwardAxis; 
+
+	private float jumpTimer;
+	private bool jumpIsTriggered;
+	private bool isJumpButtonDown;
+	private bool isJumpCancelled;
+	
+	// Use this for initialization
+	void Start () {
+		rb = GetComponent<Rigidbody>();	
+		jumpIsTriggered = false;
+	}
+		
+	// Update is called once per frame
+	void Update () {
+		// Debug.Log(Input.GetAxis("Forward"));
+		horizontalAxis = Input.GetAxis("Horizontal");
+		forwardAxis = Input.GetAxis("Forward");
+
+		if (Input.GetButtonDown("Jump")) {
+			//don't want to assign false here;
+			jumpIsTriggered = true;
+		}
+
+		if (Input.GetButtonUp("Jump")) {
+			isJumpCancelled = true;
+		}
+
+		isJumpButtonDown = Input.GetButton("Jump");
+
+		Debug.Log(isJumpCancelled);
+	}
+
+	void FixedUpdate() {
+		
+		if (Mathf.Abs(horizontalAxis) < 0.2) {
+			horizontalAxis = 0;
+		}
+
+		if (Mathf.Abs(forwardAxis) < 0.2) {
+			forwardAxis = 0;
+		}
+
+
+		rb.velocity = Quaternion.Euler(0, 45, 0) *
+		 	new Vector3(horizontalAxis*hSpeed, 0 , forwardAxis*fSpeed);
+
+			//attempt to jump
+		if (isJumpButtonDown &&
+			jumpIsTriggered &&
+			!isJumpCancelled &&
+			jumpTimer <= maxJumpTime
+			) {
+			rb.AddForce(new Vector3(0, jumpForce, 0), ForceMode.Force);
+			jumpTimer += Time.fixedDeltaTime;
+		}
+	}
+
+	void OnCollisionEnter(Collision col) {
+		GameObject other = col.collider.gameObject;
+		Debug.Log("entered: " + other.layer);
+		// layer 8 is "Ground" layer
+		if (other.layer == 8) {
+			jumpIsTriggered = false;
+			isJumpCancelled = false;
+			jumpTimer = 0;
+			
+		}
+	}
+
+	void OnCollisionExit(Collision col) {
+		GameObject other = col.collider.gameObject;
+
+		// layer 8 is "Ground" layer
+		if (other.layer == 8) {
+		}
+	}
+}
