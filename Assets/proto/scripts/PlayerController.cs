@@ -12,7 +12,6 @@ public class PlayerController : MonoBehaviour {
 	public int currentJumps = 0;
 
 	private Rigidbody rb;
-	private GameObject feet;
 
 	private float horizontalAxis;
 	private float forwardAxis; 
@@ -23,7 +22,6 @@ public class PlayerController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		rb = GetComponent<Rigidbody>();	
-		feet = GameObject.Find("feet");
 		jumpIsTriggered = false;
 	}
 		
