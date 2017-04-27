@@ -8,18 +8,22 @@ public class PlayerController : MonoBehaviour {
 	public float jumpVel = 5;
 	public int maxJumps = 1;
 
+	[HideInInspector]
+	public int currentJumps = 0;
+
 	private Rigidbody rb;
+	private GameObject feet;
 
 	private float horizontalAxis;
 	private float forwardAxis; 
 
-	private int currentJumps = 0;
 	private bool jumpIsTriggered;
 	private bool isJumpCancelled;
 	
 	// Use this for initialization
 	void Start () {
 		rb = GetComponent<Rigidbody>();	
+		feet = GameObject.Find("feet");
 		jumpIsTriggered = false;
 	}
 		
@@ -74,13 +78,15 @@ public class PlayerController : MonoBehaviour {
 			new Vector3(horizontalAxis*hSpeed, rb.velocity.y , forwardAxis*fSpeed);
 	}
 
-	void OnCollisionEnter(Collision col) {
-		GameObject other = col.collider.gameObject;
-		// layer 8 is "Ground" layer
-		if (other.layer == 8) {
-			currentJumps = 0;
-		}
-	}
+	// void OnCollisionEnter(Collision col) {
+		
+	// 	GameObject other = col.collider.gameObject;
+		
+	// 	// layer 8 is "Ground" layer
+	// 	if (other.layer == 8) {
+	// 		currentJumps = 0;
+	// 	}
+	// }
 
 	void OnCollisionExit(Collision col) {
 		GameObject other = col.collider.gameObject;
