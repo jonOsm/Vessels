@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour {
 	public float hSpeed = 5f;
 	public float fSpeed = 5f;
 	public float jumpForce = 1000;
+	public float jumpVel = 5;
 	public float maxJumpTime = 0.75f;
 	public float maxJumpHeight = 2;
 
@@ -13,6 +14,7 @@ public class PlayerController : MonoBehaviour {
 
 	private float horizontalAxis;
 	private float forwardAxis; 
+	private float contextualMaxJumpHeight;
 
 	private float jumpTimer;
 	private bool jumpIsTriggered;
@@ -29,32 +31,38 @@ public class PlayerController : MonoBehaviour {
 	void Update () {
 		horizontalAxis = Input.GetAxis("Horizontal");
 		forwardAxis = Input.GetAxis("Forward");
+		isJumpButtonDown = Input.GetButton("Jump");
 
 		if (Input.GetButtonDown("Jump")) {
 			//don't want to assign false here;
 			jumpIsTriggered = true;
+			float contextualMaxJumpHeight = rb.position.y + maxJumpHeight;
+
 		}
 
-		if (Input.GetButtonUp("Jump")) {
-			isJumpCancelled = true;
-		}
+		// if (Input.GetButtonUp("Jump")) {
+		// 	isJumpCancelled = true;
+		// }
 
-		isJumpButtonDown = Input.GetButton("Jump");
 
 	}
 
 	void FixedUpdate() {
 
-		rb.velocity = CalculateVelocity();
+		Vector3 newVel = CalculateVelocity();
 			//attempt to jump
-		if (isJumpButtonDown &&
-			jumpIsTriggered &&
-			!isJumpCancelled &&
-			jumpTimer <= maxJumpTime
-			) {
-			rb.AddForce(new Vector3(0, jumpForce, 0), ForceMode.Force);
-			jumpTimer += Time.fixedDeltaTime;
+		if (jumpIsTriggered) {
+			// rb.useGravity = false;
+			newVel.y=jumpVel;
+			jumpIsTriggered = false;
+		} else {
+			// rb.useGravity = true;
 		}
+
+		// if (isJumpCancelled) {
+		// 	newVel.y = 0;
+		// }
+		rb.velocity = newVel;
 	}
 
 	Vector3 CalculateVelocity() {
@@ -67,7 +75,7 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		return Quaternion.Euler(0, 45, 0) * 
-			new Vector3(horizontalAxis*hSpeed, 0 , forwardAxis*fSpeed);
+			new Vector3(horizontalAxis*hSpeed, rb.velocity.y , forwardAxis*fSpeed);
 	}
 
 	void OnCollisionEnter(Collision col) {
