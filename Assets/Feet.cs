@@ -14,29 +14,11 @@ public class Feet : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		grounded = Physics.Raycast(transform.position, Vector3.down, groundedRaycastDistance);
-		print(grounded);
+		//TODO: FILTER ONLY LAYERS WE WANT TO BE ABLE TO JUMP FROM
+		grounded = Physics.Raycast(transform.position, Vector3.down,
+			groundedRaycastDistance);
 		if (grounded) {
 			player.currentJumps = 0;
 		}
 	}
-
-	// void OnCollisionEnter(Collision col) {
-	// 	Debug.Log("collision");	
-	// 	GameObject other = col.collider.gameObject;
-		
-	// 	// layer 8 is "Ground" layer
-	// 	if (other.layer == 8) {
-	// 		player.currentJumps = 0;
-	// 	}
-	// }
-	// void OnTriggerEnter(Collider col) {
-	// 	Debug.Log("collision");	
-	// 	GameObject other = col.gameObject;
-		
-	// 	// layer 8 is "Ground" layer
-	// 	if (other.layer == 8) {
-	// 		player.currentJumps = 0;
-	// 	}
-	// }
 }

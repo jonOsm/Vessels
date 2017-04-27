@@ -47,25 +47,12 @@ public class PlayerController : MonoBehaviour {
 
 	void FixedUpdate() {
 
-		Vector3 newVel = CalculateVelocity();
-			//attempt to jump
-		if (jumpIsTriggered) {
-			// rb.useGravity = false;
-			newVel.y=jumpVel;
-			currentJumps++;
-			jumpIsTriggered = false;
-		}
-
-		if (isJumpCancelled) {
-			if (rb.velocity.y > 0) {
-				newVel.y = 0;
-			}
-			isJumpCancelled = false;
-		}
+		Vector3 newVel = CalculateRunVector();
+		newVel.y = CalculateJumpVelocity();
 		rb.velocity = newVel;
 	}
 
-	Vector3 CalculateVelocity() {
+	Vector3 CalculateRunVector() {
 		if (Mathf.Abs(horizontalAxis) < 0.2) {
 			horizontalAxis = 0;
 		}
@@ -75,24 +62,25 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		return Quaternion.Euler(0, 45, 0) * 
-			new Vector3(horizontalAxis*hSpeed, rb.velocity.y , forwardAxis*fSpeed);
+			new Vector3(horizontalAxis*hSpeed, 0, forwardAxis*fSpeed);
 	}
 
-	// void OnCollisionEnter(Collision col) {
-		
-	// 	GameObject other = col.collider.gameObject;
-		
-	// 	// layer 8 is "Ground" layer
-	// 	if (other.layer == 8) {
-	// 		currentJumps = 0;
-	// 	}
-	// }
+	float CalculateJumpVelocity() {
+		float calculatedJumpVel = rb.velocity.y;
 
-	void OnCollisionExit(Collision col) {
-		GameObject other = col.collider.gameObject;
-
-		// layer 8 is "Ground" layer
-		if (other.layer == 8) {
+		if (jumpIsTriggered) {
+			// rb.useGravity = false;
+			calculatedJumpVel=jumpVel;
+			currentJumps++;
+			jumpIsTriggered = false;
 		}
+
+		if (isJumpCancelled) {
+			if (rb.velocity.y > 0) {
+				calculatedJumpVel= 0;
+			}
+			isJumpCancelled = false;
+		}
+		return calculatedJumpVel;
 	}
 }
