@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour {
 	public float fSpeed = 5f;
 	public float jumpForce = 1000;
 	public float maxJumpTime = 0.75f;
+	public float maxJumpHeight = 2;
 
 	private Rigidbody rb;
 
@@ -26,7 +27,6 @@ public class PlayerController : MonoBehaviour {
 		
 	// Update is called once per frame
 	void Update () {
-		// Debug.Log(Input.GetAxis("Forward"));
 		horizontalAxis = Input.GetAxis("Horizontal");
 		forwardAxis = Input.GetAxis("Forward");
 
@@ -41,23 +41,11 @@ public class PlayerController : MonoBehaviour {
 
 		isJumpButtonDown = Input.GetButton("Jump");
 
-		Debug.Log(isJumpCancelled);
 	}
 
 	void FixedUpdate() {
-		
-		if (Mathf.Abs(horizontalAxis) < 0.2) {
-			horizontalAxis = 0;
-		}
 
-		if (Mathf.Abs(forwardAxis) < 0.2) {
-			forwardAxis = 0;
-		}
-
-
-		rb.velocity = Quaternion.Euler(0, 45, 0) *
-		 	new Vector3(horizontalAxis*hSpeed, 0 , forwardAxis*fSpeed);
-
+		rb.velocity = CalculateVelocity();
 			//attempt to jump
 		if (isJumpButtonDown &&
 			jumpIsTriggered &&
@@ -69,9 +57,21 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
+	Vector3 CalculateVelocity() {
+		if (Mathf.Abs(horizontalAxis) < 0.2) {
+			horizontalAxis = 0;
+		}
+
+		if (Mathf.Abs(forwardAxis) < 0.2) {
+			forwardAxis = 0;
+		}
+
+		return Quaternion.Euler(0, 45, 0) * 
+			new Vector3(horizontalAxis*hSpeed, 0 , forwardAxis*fSpeed);
+	}
+
 	void OnCollisionEnter(Collision col) {
 		GameObject other = col.collider.gameObject;
-		Debug.Log("entered: " + other.layer);
 		// layer 8 is "Ground" layer
 		if (other.layer == 8) {
 			jumpIsTriggered = false;
