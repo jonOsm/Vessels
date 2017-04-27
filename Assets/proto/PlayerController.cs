@@ -5,20 +5,16 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 	public float hSpeed = 5f;
 	public float fSpeed = 5f;
-	public float jumpForce = 1000;
 	public float jumpVel = 5;
-	public float maxJumpTime = 0.75f;
-	public float maxJumpHeight = 2;
+	public int maxJumps = 1;
 
 	private Rigidbody rb;
 
 	private float horizontalAxis;
 	private float forwardAxis; 
-	private float contextualMaxJumpHeight;
 
-	private float jumpTimer;
+	private int currentJumps = 0;
 	private bool jumpIsTriggered;
-	private bool isJumpButtonDown;
 	private bool isJumpCancelled;
 	
 	// Use this for initialization
@@ -31,18 +27,16 @@ public class PlayerController : MonoBehaviour {
 	void Update () {
 		horizontalAxis = Input.GetAxis("Horizontal");
 		forwardAxis = Input.GetAxis("Forward");
-		isJumpButtonDown = Input.GetButton("Jump");
 
-		if (Input.GetButtonDown("Jump")) {
+		if (Input.GetButtonDown("Jump") && currentJumps < maxJumps) {
 			//don't want to assign false here;
 			jumpIsTriggered = true;
-			float contextualMaxJumpHeight = rb.position.y + maxJumpHeight;
 
 		}
 
-		// if (Input.GetButtonUp("Jump")) {
-		// 	isJumpCancelled = true;
-		// }
+		if (Input.GetButtonUp("Jump")) {
+			isJumpCancelled = true;
+		}
 
 
 	}
@@ -54,14 +48,16 @@ public class PlayerController : MonoBehaviour {
 		if (jumpIsTriggered) {
 			// rb.useGravity = false;
 			newVel.y=jumpVel;
+			currentJumps++;
 			jumpIsTriggered = false;
-		} else {
-			// rb.useGravity = true;
 		}
 
-		// if (isJumpCancelled) {
-		// 	newVel.y = 0;
-		// }
+		if (isJumpCancelled) {
+			if (rb.velocity.y > 0) {
+				newVel.y = 0;
+			}
+			isJumpCancelled = false;
+		}
 		rb.velocity = newVel;
 	}
 
@@ -82,10 +78,7 @@ public class PlayerController : MonoBehaviour {
 		GameObject other = col.collider.gameObject;
 		// layer 8 is "Ground" layer
 		if (other.layer == 8) {
-			jumpIsTriggered = false;
-			isJumpCancelled = false;
-			jumpTimer = 0;
-			
+			currentJumps = 0;
 		}
 	}
 
