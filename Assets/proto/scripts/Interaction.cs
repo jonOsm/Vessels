@@ -17,6 +17,8 @@ public class Interaction : MonoBehaviour {
 		TIMER,
 		EXPLICT
 	}
+
+	public static Interaction activeInteraction;
 	
 	public InteractionShard[] shards; 
 	// public string nameDisplayed = "Forgetful Designer";
@@ -25,21 +27,26 @@ public class Interaction : MonoBehaviour {
 	public InteractionStartConditions interactionType = InteractionStartConditions.EXPLICIT;
 	public InteractionExitConditions exitCondition = InteractionExitConditions.TRIGGEREXIT;
 	public bool loopInteraction = true;
+	public bool freezePlayer = false;
 
 	
 	private int currentShard = 0;
-	private bool isActive = false;
+	private PlayerController player;
 	// Use this for initialization
 	void Start () {
-		
+		player = FindObjectOfType<PlayerController>();	
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetButtonDown("Cancel")) {
-			isActive = false;
+		// print(freezePlayer);
+		if (activeInteraction == this && Input.GetButtonDown("Cancel") && !freezePlayer) {
 			MessagePanel.CloseMessage();
 		}		
+
+		if (activeInteraction == null && Input.GetButtonDown("Cancel")) {
+			MessagePanel.CloseMessage();
+		}
 	}
 
 	public void Interact() {
@@ -58,20 +65,34 @@ public class Interaction : MonoBehaviour {
 	void OnTriggerExit(Collider col) {
 		//MessagePanel.CloseMessage();
 		if (exitCondition == InteractionExitConditions.TRIGGEREXIT) {
-			isActive = false;
 			MessagePanel.CloseMessage();
 		}
 
 	}
 
 	void InitiateInteraction() {
-		isActive = true;
+		activeInteraction = this;
+		if (freezePlayer) {
+			player.FreezePosition();
+			if (currentShard >= shards.Length) {
+				player.UnfreezePosition();
+				MessagePanel.CloseMessage();
+				currentShard = shards.Length -1;
+				return;
+			}	
+		}
+
+		if (currentShard >= shards.Length) {
+			if(loopInteraction) {
+				currentShard = 0;
+			} else {
+				currentShard = shards.Length -1;
+			}
+		}	
+
 		MessagePanel.UpdateMessage(shards[currentShard].speaker, shards[currentShard].message);	
 		MessagePanel.OpenMessage();
 		currentShard++;
 
-		if (currentShard >= shards.Length && loopInteraction) {
-			currentShard = 0;
-		}	
 	}
 }

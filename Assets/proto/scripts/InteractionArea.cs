@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class InteractionArea : MonoBehaviour {
+	private bool inInspectRange = false;
+	private GameObject objectToInspect;
 
 	// Use this for initialization
 	void Start () {
@@ -11,14 +13,22 @@ public class InteractionArea : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	}
 
-	void OnTriggerStay(Collider col) {
 		if (Input.GetButtonDown("Inspect")) {
-			Inspect(col.gameObject);
+			if (objectToInspect)
+				Inspect(objectToInspect);
 		}
 	}
 
+	void OnTriggerStay(Collider col) {
+		inInspectRange = true;
+		objectToInspect = col.gameObject;
+	}
+
+	void OnTriggerExit(Collider col) {
+		inInspectRange = false;
+		objectToInspect = null;
+	}
 
 	void Inspect(GameObject go) {
 		Interaction interaction = go.GetComponent<Interaction>(); 

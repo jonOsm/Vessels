@@ -18,6 +18,8 @@ public class PlayerController : MonoBehaviour {
 
 	private bool jumpIsTriggered;
 	private bool isJumpCancelled;
+	public bool freezepos;
+	public bool ufreezepos;
 	
 	// Use this for initialization
 	void Start () {
@@ -38,9 +40,6 @@ public class PlayerController : MonoBehaviour {
 
 		if (Input.GetButtonUp("Jump")) {
 			isJumpCancelled = true;
-		}
-
-		if (Input.GetButtonDown("Inspect")) {
 		}
 	}
 
@@ -81,5 +80,14 @@ public class PlayerController : MonoBehaviour {
 			isJumpCancelled = false;
 		}
 		return calculatedJumpVel;
+	}
+
+	public void FreezePosition() {
+		rb.constraints = RigidbodyConstraints.FreezeAll;
+	}
+
+	public void UnfreezePosition() {
+		rb.constraints = RigidbodyConstraints.None;
+		rb.constraints = RigidbodyConstraints.FreezeRotation;
 	}
 }
