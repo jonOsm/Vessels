@@ -3,24 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Interaction : MonoBehaviour {
-
 	public enum InteractionTypes {
+		SIMPLE,
+		STORY
+	}
+	public enum InteractionStartConditions {
 		EXPLICIT,
 		TRIGGERENTER,
 	}
 
-	public enum ExitConditions {
+	public enum InteractionExitConditions {
 		TRIGGEREXIT,
 		TIMER,
 		EXPLICT
 	}
+	
+	public InteractionShard[] shards; 
+	// public string nameDisplayed = "Forgetful Designer";
+	// [TextAreaAttribute]
+	// public string message = "Looks like someone forgot to add a message here. Shame.";
+	public InteractionStartConditions interactionType = InteractionStartConditions.EXPLICIT;
+	public InteractionExitConditions exitCondition = InteractionExitConditions.TRIGGEREXIT;
+	public bool loopInteraction = true;
 
-	public string nameDisplayed = "Forgetful Designer";
-	[TextAreaAttribute]
-	public string message = "Looks like someone forgot to add a message here. Shame.";
-	public InteractionTypes interactionType = InteractionTypes.EXPLICIT;
-	public ExitConditions exitCondition = ExitConditions.TRIGGEREXIT;
-
+	
+	private int currentShard = 0;
 	private bool isActive = false;
 	// Use this for initialization
 	void Start () {
@@ -36,21 +43,21 @@ public class Interaction : MonoBehaviour {
 	}
 
 	public void Interact() {
-		if (interactionType == InteractionTypes.EXPLICIT) {
-			InitiateInteraction();
+		if (interactionType == InteractionStartConditions.EXPLICIT) {
+				InitiateInteraction();
 		}
 	}
 
 	public void OnTriggerEnter(Collider col) {
 		InteractionArea playerInteractionArea = col.gameObject.GetComponent<InteractionArea>();
-		if (playerInteractionArea && interactionType == InteractionTypes.TRIGGERENTER) {
+		if (playerInteractionArea && interactionType == InteractionStartConditions.TRIGGERENTER) {
 			InitiateInteraction();
 		}
 	}
 
 	void OnTriggerExit(Collider col) {
 		//MessagePanel.CloseMessage();
-		if (exitCondition == ExitConditions.TRIGGEREXIT) {
+		if (exitCondition == InteractionExitConditions.TRIGGEREXIT) {
 			isActive = false;
 			MessagePanel.CloseMessage();
 		}
@@ -59,7 +66,12 @@ public class Interaction : MonoBehaviour {
 
 	void InitiateInteraction() {
 		isActive = true;
-		MessagePanel.UpdateMessage(nameDisplayed, message);	
+		MessagePanel.UpdateMessage(shards[currentShard].speaker, shards[currentShard].message);	
 		MessagePanel.OpenMessage();
+		currentShard++;
+
+		if (currentShard >= shards.Length && loopInteraction) {
+			currentShard = 0;
+		}	
 	}
 }
