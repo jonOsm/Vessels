@@ -40,7 +40,8 @@ public class PlayerController : MonoBehaviour {
 			isJumpCancelled = true;
 		}
 
-
+		if (Input.GetButtonDown("Inspect")) {
+		}
 	}
 
 	void FixedUpdate() {

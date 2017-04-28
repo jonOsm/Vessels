@@ -5,10 +5,12 @@ using UnityEngine.UI;
 
 public class MessagePanel : MonoBehaviour {
 
-	private Text messengerName;
-	private Text messageText;
+	private static GameObject messagePanel;
+	private static Text messengerName;
+	private static Text messageText;
 	// Use this for initialization
 	void Start () {
+		messagePanel = GameObject.Find("Message Panel");
 		messengerName = GameObject.Find("Messenger Name").GetComponent<Text>();
 		messageText = GameObject.Find("Message").GetComponent<Text>();
 		UpdateMessage("Test", "This is the new message to send");
@@ -19,8 +21,16 @@ public class MessagePanel : MonoBehaviour {
 		
 	}
 
-	public void UpdateMessage(string messenger, string newMessage) {
+	public static void UpdateMessage(string messenger, string newMessage) {
 		messengerName.text = messenger;
 		messageText.text = newMessage;
+	}
+
+	public static void CloseMessage() {
+		messagePanel.SetActive(false);
+	}
+
+	public static void OpenMessage() {
+		messagePanel.SetActive(true);
 	}
 }
