@@ -16,13 +16,9 @@ public class InteractionArea : MonoBehaviour {
 	void OnTriggerStay(Collider col) {
 		if (Input.GetButtonDown("Inspect")) {
 			Inspect(col.gameObject);
-			MessagePanel.OpenMessage();
 		}
 	}
 
-	void OnTriggerExit(Collider col) {
-		MessagePanel.CloseMessage();
-	}
 
 	void Inspect(GameObject go) {
 		Interaction interaction = go.GetComponent<Interaction>(); 

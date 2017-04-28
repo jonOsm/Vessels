@@ -8,12 +8,13 @@ public class MessagePanel : MonoBehaviour {
 	private static GameObject messagePanel;
 	private static Text messengerName;
 	private static Text messageText;
+
 	// Use this for initialization
 	void Start () {
 		messagePanel = GameObject.Find("Message Panel");
 		messengerName = GameObject.Find("Messenger Name").GetComponent<Text>();
 		messageText = GameObject.Find("Message").GetComponent<Text>();
-		UpdateMessage("Test", "This is the new message to send");
+		CloseMessage();
 	}
 	
 	// Update is called once per frame
@@ -33,4 +34,5 @@ public class MessagePanel : MonoBehaviour {
 	public static void OpenMessage() {
 		messagePanel.SetActive(true);
 	}
+
 }
