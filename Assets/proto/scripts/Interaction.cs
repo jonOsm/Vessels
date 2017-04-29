@@ -18,6 +18,7 @@ public class Interaction : MonoBehaviour {
 		EXPLICT
 	}
 
+
 	public static Interaction activeInteraction;
 	
 	public InteractionShard[] shards; 
@@ -90,7 +91,9 @@ public class Interaction : MonoBehaviour {
 			}
 		}	
 
-		MessagePanel.UpdateMessage(shards[currentShard].speaker, shards[currentShard].message);	
+		MessagePanel.UpdateMessage(shards[currentShard].speaker,
+								shards[currentShard].speakerType,
+								shards[currentShard].message);	
 		MessagePanel.OpenMessage();
 		currentShard++;
 

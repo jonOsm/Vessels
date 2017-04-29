@@ -8,12 +8,15 @@ public class MessagePanel : MonoBehaviour {
 	private static GameObject messagePanel;
 	private static Text messengerName;
 	private static Text messageText;
+	private static GameController gameController;
 
 	// Use this for initialization
 	void Start () {
 		messagePanel = GameObject.Find("Message Panel");
 		messengerName = GameObject.Find("Messenger Name").GetComponent<Text>();
 		messageText = GameObject.Find("Message").GetComponent<Text>();
+		gameController = FindObjectOfType<GameController>();
+
 		CloseMessage();
 	}
 	
@@ -22,8 +25,8 @@ public class MessagePanel : MonoBehaviour {
 		
 	}
 
-	public static void UpdateMessage(string messenger, string newMessage) {
-		messengerName.text = messenger;
+	public static void UpdateMessage(string messenger, InteractionShard.SpeakerTypes speakerType, string newMessage) {
+		messengerName.text = messenger + ":";
 		messageText.text = newMessage;
 	}
 
@@ -33,6 +36,20 @@ public class MessagePanel : MonoBehaviour {
 
 	public static void OpenMessage() {
 		messagePanel.SetActive(true);
+	} 
+	//not using this right now, but it works;
+	private static Color FindSpeakerColor(InteractionShard.SpeakerTypes speakerType) {
+		if (speakerType == InteractionShard.SpeakerTypes.PLAYER) {
+			return gameController.playerLabelColor;
+		} else if (speakerType == InteractionShard.SpeakerTypes.FRIENDLY) {
+			return gameController.friendlyLabelColor;
+		} else if (speakerType == InteractionShard.SpeakerTypes.NEUTRAL) {
+			return gameController.neutralLabelColor;
+		} else if (speakerType == InteractionShard.SpeakerTypes.ENEMY) {
+			return gameController.enemyLabelColor;
+		} else {
+			return Color.magenta;
+		}
 	}
 
 }

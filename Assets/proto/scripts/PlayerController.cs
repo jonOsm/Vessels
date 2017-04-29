@@ -16,10 +16,9 @@ public class PlayerController : MonoBehaviour {
 	private float horizontalAxis;
 	private float forwardAxis; 
 
+	private bool jumpingEnabled = true;
 	private bool jumpIsTriggered;
 	private bool isJumpCancelled;
-	public bool freezepos;
-	public bool ufreezepos;
 	
 	// Use this for initialization
 	void Start () {
@@ -32,7 +31,7 @@ public class PlayerController : MonoBehaviour {
 		horizontalAxis = Input.GetAxis("Horizontal");
 		forwardAxis = Input.GetAxis("Forward");
 
-		if (Input.GetButtonDown("Jump") && currentJumps < maxJumps) {
+		if (Input.GetButtonDown("Jump") && jumpingEnabled && currentJumps < maxJumps) {
 			//don't want to assign false here;
 			jumpIsTriggered = true;
 
@@ -83,11 +82,21 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	public void FreezePosition() {
-		rb.constraints = RigidbodyConstraints.FreezeAll;
+		rb.constraints |= RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
+		DisableJumping();	
 	}
 
 	public void UnfreezePosition() {
 		rb.constraints = RigidbodyConstraints.None;
 		rb.constraints = RigidbodyConstraints.FreezeRotation;
+		EnableJumping();
+	}
+
+	public void DisableJumping() {
+		jumpingEnabled = false;
+	}
+
+	public void EnableJumping() {
+		jumpingEnabled = true;	
 	}
 }

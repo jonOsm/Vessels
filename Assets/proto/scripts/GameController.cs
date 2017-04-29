@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GameController : MonoBehaviour {
+	public Color playerLabelColor;
+	public Color friendlyLabelColor;
+	public Color neutralLabelColor;
+	public Color enemyLabelColor;
 
 	// Use this for initialization
 	void Start () {

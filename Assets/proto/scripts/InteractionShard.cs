@@ -7,7 +7,8 @@ public class InteractionShard {
 	public enum SpeakerTypes {
 		NEUTRAL,
 		PLAYER,
-		ENEMY
+		ENEMY,
+		FRIENDLY 
 	}
 	public string speaker;
 	public SpeakerTypes speakerType;
