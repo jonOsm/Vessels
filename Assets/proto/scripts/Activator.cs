@@ -34,7 +34,6 @@ public class Activator : MonoBehaviour {
 				break;
 			case ActivatorType.MULTIUSE:
 			default:
-				Debug.Log("testing");
 				break;
 		}
 	}	

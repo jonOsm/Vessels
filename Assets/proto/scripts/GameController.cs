@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour {
 	public Color playerLabelColor;
@@ -19,5 +20,9 @@ public class GameController : MonoBehaviour {
 			Debug.Log("Should Esc on Windows");
 			Application.Quit();
 		}
+	}
+
+	public void LoadLevel(string levelName) {
+		SceneManager.LoadScene("Prototype");
 	}
 }

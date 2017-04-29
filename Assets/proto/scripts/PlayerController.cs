@@ -97,6 +97,10 @@ public class PlayerController : MonoBehaviour {
 		EnableJumping();
 	}
 
+	public void UnfreezePosition(float delay) {
+		Invoke("UnfreezePosition", delay);
+	}
+
 	public void DisableJumping() {
 		jumpingEnabled = false;
 	}
