@@ -3,10 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PowerUp : MonoBehaviour {
-
+	public enum PowerupType {
+		MAXJUMPS, WALLJUMPING 
+	}
+	public PowerupType powerupType;
+	PlayerController player;
 	// Use this for initialization
 	void Start () {
 		
+		player = GameObject.Find("Player").GetComponent<PlayerController>();
 	}
 	
 	// Update is called once per frame
@@ -15,10 +20,26 @@ public class PowerUp : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider col) {
-		PlayerController player = col.gameObject.GetComponent<PlayerController>();
-		if (player) {
-			player.maxJumps++;
-			Destroy(gameObject);
+		if (col.gameObject.GetComponent<PlayerController>()) {
+			switch (powerupType) {
+				case PowerupType.MAXJUMPS:
+					IncreaseMaxJumps();
+					break;
+				case PowerupType.WALLJUMPING:
+					EnableWallJumping();
+					break;
+
+			}	
 		}
+	}
+
+	void IncreaseMaxJumps() {
+		player.maxJumps++;
+		Destroy(gameObject);
+	}
+
+	void EnableWallJumping() {
+		player.wallJumpingEnabled = true;
+		Destroy(gameObject);
 	}
 }

@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour {
 	public float fSpeed = 5f;
 	public float jumpVel = 5;
 	public int maxJumps = 1;
+	public bool wallJumpingEnabled = false;
 
 	[HideInInspector]
 	public int currentJumps = 0;
@@ -19,6 +20,7 @@ public class PlayerController : MonoBehaviour {
 	private bool jumpingEnabled = true;
 	private bool jumpIsTriggered;
 	private bool isJumpCancelled;
+	private bool isAgainstWall = false;
 	
 	// Use this for initialization
 	void Start () {
@@ -35,7 +37,10 @@ public class PlayerController : MonoBehaviour {
 			//don't want to assign false here;
 			jumpIsTriggered = true;
 
-		}
+		 }
+		//  else if (Input.GetButtonDown("Jump") && jumpingEnabled && isAgainstWall) {
+		// 	Debug.Log("JUMPING OFF OF WALL");	
+		// }
 
 		if (Input.GetButtonUp("Jump")) {
 			isJumpCancelled = true;
