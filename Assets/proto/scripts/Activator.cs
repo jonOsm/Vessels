@@ -10,7 +10,7 @@ public class Activator : MonoBehaviour {
 	}
 	public GameObject activatableGameObject;
 	public ActivatorType activatorType = ActivatorType.SINGLEUSE;
-	public bool enabled = true;
+	public bool isActive = true;
 
 	private IActivatable activatable;
 	private int timesActivated = 0;
@@ -20,24 +20,49 @@ public class Activator : MonoBehaviour {
 		 activatable = activatableGameObject.GetComponent<IActivatable>();
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		if (activatorType == ActivatorType.SINGLEUSE && timesActivated > 0)	{
-			Disable();
-		}
-
-	}
 
 	void OnCollisionEnter(Collision col) {
-		if (enabled) {
-			activatable.Activate();
-			timesActivated++;
-		}
-
+		ActivationSwitchboard();
 	}
-	
-	void Disable() {
-		enabled = false;
+	void ActivationSwitchboard() {
+		switch(activatorType) {
+			case ActivatorType.SINGLEUSE:
+				SingleUseActivation();
+				break;
+			case ActivatorType.TOGGLE:
+				ToggleActivation();
+				break;
+			case ActivatorType.MULTIUSE:
+			default:
+				Debug.Log("testing");
+				break;
+		}
+	}	
+
+	void SingleUseActivation() {
+		if (timesActivated > 0) return;
+		if (isActive) {
+			ActivateActivatable();
+			GetComponent<Interaction>().enabled = false;
+		} 
+	}
+	void ToggleActivation() {
+		if (isActive) {
+			ActivateActivatable();
+		} else {
+			DeactivateActivatable();
+		} 
+	}
+
+	void ActivateActivatable() {
+		isActive = false;
+		activatable.Activate();
+		timesActivated++;
+	}
+	void DeactivateActivatable() {
+		isActive = true;
+		activatable.Deactivate();
+		timesActivated++;
 	}
 
 }
