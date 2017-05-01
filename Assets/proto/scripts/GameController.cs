@@ -9,6 +9,7 @@ public class GameController : MonoBehaviour {
 	public Color neutralLabelColor;
 	public Color enemyLabelColor;
 
+	
 	// Use this for initialization
 	void Start () {
 		
@@ -24,5 +25,9 @@ public class GameController : MonoBehaviour {
 
 	public void LoadLevel(string levelName) {
 		SceneManager.LoadScene("Prototype");
+	}
+	
+	public void Quit() {
+		Application.Quit();
 	}
 }

@@ -20,7 +20,7 @@ public class PowerUp : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider col) {
-		if (col.gameObject.GetComponent<PlayerController>()) {
+		if (col.gameObject.GetComponent<InteractionArea>()) {
 			switch (powerupType) {
 				case PowerupType.MAXJUMPS:
 					IncreaseMaxJumps();

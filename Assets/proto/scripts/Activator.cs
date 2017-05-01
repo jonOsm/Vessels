@@ -10,21 +10,28 @@ public class Activator : MonoBehaviour {
 	}
 	public GameObject activatableGameObject;
 	public ActivatorType activatorType = ActivatorType.SINGLEUSE;
-	public bool isActive = true;
+	public bool activatorIsOff = true;
+	public Material onMaterial;
+	public Material offMaterial;
 
 	private IActivatable activatable;
 	private int timesActivated = 0;
+	private MeshRenderer meshRenderer;
 
 	// Use this for initialization
 	void Start () {
 		 activatable = activatableGameObject.GetComponent<IActivatable>();
+		 meshRenderer = GetComponent<MeshRenderer>();
 	}
 	
 
-	void OnCollisionEnter(Collision col) {
-		ActivationSwitchboard();
+	void OnTriggerEnter(Collider col) {
+		if (col.gameObject.GetComponent<InteractionArea>()) {
+			ActivationSwitchboard();
+		}
 	}
 	void ActivationSwitchboard() {
+
 		switch(activatorType) {
 			case ActivatorType.SINGLEUSE:
 				SingleUseActivation();
@@ -36,17 +43,19 @@ public class Activator : MonoBehaviour {
 			default:
 				break;
 		}
+
+		UpdateMaterial();
 	}	
 
 	void SingleUseActivation() {
 		if (timesActivated > 0) return;
-		if (isActive) {
+		if (activatorIsOff) {
 			ActivateActivatable();
 			GetComponent<Interaction>().enabled = false;
 		} 
 	}
 	void ToggleActivation() {
-		if (isActive) {
+		if (activatorIsOff) {
 			ActivateActivatable();
 		} else {
 			DeactivateActivatable();
@@ -54,14 +63,21 @@ public class Activator : MonoBehaviour {
 	}
 
 	void ActivateActivatable() {
-		isActive = false;
+		activatorIsOff = false;
 		activatable.Activate();
 		timesActivated++;
 	}
 	void DeactivateActivatable() {
-		isActive = true;
+		activatorIsOff = true;
 		activatable.Deactivate();
 		timesActivated++;
 	}
 
+	void UpdateMaterial() {
+		if (activatorIsOff) {
+			meshRenderer.material = offMaterial;
+		} else {
+			meshRenderer.material = onMaterial;
+		}
+	}
 }
