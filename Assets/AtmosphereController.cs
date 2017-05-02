@@ -12,6 +12,9 @@ public class AtmosphereController : MonoBehaviour {
 	public Light mainLightSource;
 	public TimeOfDay defaultTimeOfDay = TimeOfDay.DAY;
 	public float defaultTransitionTime = 2f;
+	public float dayAmbientIntensity = 0.824f;
+	public float eveningAmbientIntensity = 0.824f;
+	public float nightAmbientIntensity = 0;
 
 	public Color daySkyColor;
 	public Color eveningSkyColor;
@@ -39,7 +42,7 @@ public class AtmosphereController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		currentTimeofDay = defaultTimeOfDay;
-		// ChangeTimeOfDay(currentTimeofDay);
+		ChangeTimeOfDay(currentTimeofDay, 0);
 	}
 	
 	// Update is called once per frame
@@ -72,16 +75,18 @@ public class AtmosphereController : MonoBehaviour {
 			case TimeOfDay.DAY:
 				mainCamera.backgroundColor = Color.Lerp(transitionStartBackgroundColor, daySkyColor, transitionProgress);
 				mainLightSource.intensity = Mathf.Lerp(transitionStartLightIntensity, daySkyLightingIntensity, transitionProgress);
+				RenderSettings.ambientIntensity = Mathf.Lerp(transitionStartAmbientIntensity, dayAmbientIntensity, transitionProgress);
 				break;
 			case TimeOfDay.EVENING:
 				mainCamera.backgroundColor = Color.Lerp(transitionStartBackgroundColor, eveningSkyColor, transitionProgress);
 				mainLightSource.intensity = Mathf.Lerp(transitionStartLightIntensity, eveningSkyLightingIntensity, transitionProgress);
+				RenderSettings.ambientIntensity = Mathf.Lerp(transitionStartAmbientIntensity, eveningAmbientIntensity, transitionProgress);
 				break;
 			case TimeOfDay.NIGHT:
 				mainCamera.backgroundColor = Color.Lerp(transitionStartBackgroundColor, nightSkyColor, transitionProgress);
 				mainLightSource.intensity = Mathf.Lerp(transitionStartLightIntensity, nightSkyLightingIntensity, transitionProgress);
 
-				RenderSettings.ambientIntensity = Mathf.Lerp(transitionStartAmbientIntensity, 0, transitionProgress);
+				RenderSettings.ambientIntensity = Mathf.Lerp(transitionStartAmbientIntensity, nightAmbientIntensity, transitionProgress);
 				break;
 		}
 
@@ -90,7 +95,7 @@ public class AtmosphereController : MonoBehaviour {
 			transitionProgress = 0;
 		}
 	}
-	
+
 	// public Color GetColorByDay(TimeOfDay timeOfDay) {
 
 	// 	switch(timeOfDay) {
