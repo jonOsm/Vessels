@@ -20,7 +20,6 @@ public class PlayerController : MonoBehaviour {
 	private bool jumpingEnabled = true;
 	private bool jumpIsTriggered;
 	private bool isJumpCancelled;
-	private bool isAgainstWall = false;
 	
 	// Use this for initialization
 	void Start () {

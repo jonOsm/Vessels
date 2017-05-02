@@ -33,7 +33,6 @@ public class AtmosphereController : MonoBehaviour {
 	private Color transitionStartBackgroundColor; 
 	private float transitionStartLightIntensity; 
 	private float transitionStartAmbientIntensity; 
-	private TimeOfDay previousTimeOfDay;
 	private bool isTransitioning = false;
 	private float transitionDuration = 0;
 	private float transitionProgress = 0;
@@ -60,7 +59,6 @@ public class AtmosphereController : MonoBehaviour {
 		transitionProgress = 0;
 		isTransitioning = true;
 		this.transitionDuration = transitionDuration;	
-		previousTimeOfDay = currentTimeofDay;
 		currentTimeofDay = timeOfDay;
 		transitionStartBackgroundColor = mainCamera.backgroundColor;
 		transitionStartLightIntensity = mainLightSource.intensity;

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class TimeCycler : MonoBehaviour {
 
-	public bool isActivated = true;
 	public float timeOfDayTransitionTime = 60;
 
 	public AtmosphereController.TimeOfDay[] timesToCycle;
@@ -29,7 +28,6 @@ public class TimeCycler : MonoBehaviour {
 	}
 
 	void TransitionToNextTime() {
-		Debug.Log("running?");
 		timeSinceStartOfTransition = 0;
 		atmosphereController.ChangeTimeOfDay(timesToCycle[currentTimeIndex], timeOfDayTransitionTime);	
 		currentTimeIndex++;

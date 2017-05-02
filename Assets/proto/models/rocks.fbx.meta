@@ -1,22 +1,27 @@
 fileFormatVersion: 2
-guid: 6053f56a15a31e140a7fe09d9c29350a
-timeCreated: 1493349202
+guid: 59e497e7702144444963905de169a01d
+timeCreated: 1493696414
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
     100000: Rock
     100002: Rock 2
-    100004: //RootNode
+    100004: rock 3
+    100006: //RootNode
     400000: Rock
     400002: Rock 2
-    400004: //RootNode
+    400004: rock 3
+    400006: //RootNode
     2300000: Rock
     2300002: Rock 2
+    2300004: rock 3
     3300000: Rock
     3300002: Rock 2
-    4300000: Rock 2
-    4300002: Rock
+    3300004: rock 3
+    4300000: rock 3
+    4300002: Rock 2
+    4300004: Rock
   materials:
     importMaterials: 1
     materialName: 0

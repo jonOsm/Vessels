@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class InteractionArea : MonoBehaviour {
-	private bool inInspectRange = false;
 	private GameObject objectToInspect;
 
 	// Use this for initialization
@@ -21,12 +20,10 @@ public class InteractionArea : MonoBehaviour {
 	}
 
 	void OnTriggerStay(Collider col) {
-		inInspectRange = true;
 		objectToInspect = col.gameObject;
 	}
 
 	void OnTriggerExit(Collider col) {
-		inInspectRange = false;
 		objectToInspect = null;
 	}
 
