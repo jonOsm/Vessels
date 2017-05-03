@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour {
 	public Color playerLabelColor;
@@ -9,16 +11,19 @@ public class GameController : MonoBehaviour {
 	public Color neutralLabelColor;
 	public Color enemyLabelColor;
 
+	public bool sceneHasPauseMenu = false;
 	private GameObject menu;
 	private PlayerController player;
+
 	// Use this for initialization
 	void Start () {
-		menu = GameObject.FindGameObjectWithTag("MainMenu");
+		// Time.timeScale = 1;
 		player = FindObjectOfType<PlayerController>();
-		Time.timeScale = 1;
-
-		menu.SetActive(false);
 		Cursor.visible = false;
+		if (sceneHasPauseMenu) {
+			menu = GameObject.FindGameObjectWithTag("MainMenu");
+			menu.SetActive(false);
+		}
 	}
 	
 	// Update is called once per frame
@@ -28,7 +33,7 @@ public class GameController : MonoBehaviour {
 		// 	Application.Quit();
 		// }
 
-		if (Input.GetButtonDown("Pause")) {
+		if (Input.GetButtonDown("Pause") && sceneHasPauseMenu) {
 			if (menu) ToggleMenu();
 		}
 	}
@@ -43,13 +48,13 @@ public class GameController : MonoBehaviour {
 
 	public void ToggleMenu() {
 		if (menu.activeSelf) {
+			// Time.timeScale = 1;
 			menu.SetActive(false);
-			Time.timeScale = 1;
 			player.UnfreezePosition();
 		}
 		else if (!menu.activeSelf) {
+			// Time.timeScale = 0;
 			menu.SetActive(true);
-			Time.timeScale = 0;
 			player.FreezePosition();
 		}
 	}
