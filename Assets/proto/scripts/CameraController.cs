@@ -43,4 +43,8 @@ public class CameraController : MonoBehaviour {
 		return newCameraPos;
 
 	}
+
+	public void setObjectToFocus(GameObject objectToFocus) {
+		player = objectToFocus;
+	}
 }

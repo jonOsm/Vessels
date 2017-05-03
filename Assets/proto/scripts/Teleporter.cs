@@ -7,6 +7,7 @@ public class Teleporter : MonoBehaviour {
 	public GameObject targetLocation;
 	public Vector3 offset = Vector3.forward;
 	public float removeControlTime = 0;
+		
 	// Use this for initialization
 	void Start () {
 	}
@@ -24,5 +25,5 @@ public class Teleporter : MonoBehaviour {
 			player.UnfreezePosition(removeControlTime);
 		}
 	}
-
+	
 }

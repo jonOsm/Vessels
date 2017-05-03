@@ -14,7 +14,7 @@ public class MessagePanel : MonoBehaviour {
 	void Start () {
 		messagePanel = GameObject.Find("Message Panel");
 		messengerName = GameObject.Find("Messenger Name").GetComponent<Text>();
-		messageText = GameObject.Find("Message").GetComponent<Text>();
+		messageText = GameObject.Find("Message Panel Text").GetComponent<Text>();
 		gameController = FindObjectOfType<GameController>();
 
 		CloseMessage();

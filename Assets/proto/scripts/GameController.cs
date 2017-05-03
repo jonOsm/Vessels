@@ -12,13 +12,17 @@ public class GameController : MonoBehaviour {
 	public Color enemyLabelColor;
 
 	public bool sceneHasPauseMenu = false;
+	public GameObject finalCameraFocus;
+	public Animator fadeOutAnimation;
 	private GameObject menu;
 	private PlayerController player;
+	private CameraController camera;
 
 	// Use this for initialization
 	void Start () {
 		// Time.timeScale = 1;
 		player = FindObjectOfType<PlayerController>();
+		camera = FindObjectOfType<CameraController>();
 		Cursor.visible = false;
 		if (sceneHasPauseMenu) {
 			menu = GameObject.FindGameObjectWithTag("MainMenu");
@@ -41,7 +45,9 @@ public class GameController : MonoBehaviour {
 	public void LoadLevel(string levelName) {
 		SceneManager.LoadScene(levelName);
 	}
-	
+	public void FadeOutOfScene() {
+		fadeOutAnimation.Play("fadeOut");
+	}	
 	public void Quit() {
 		Application.Quit();
 	}
@@ -57,6 +63,11 @@ public class GameController : MonoBehaviour {
 			menu.SetActive(true);
 			player.FreezePosition();
 		}
+	}
+
+	public void EndPrototype() {
+		camera.setObjectToFocus(finalCameraFocus);
+		
 	}
 
 }

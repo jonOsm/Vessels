@@ -7,7 +7,7 @@ public class TimeCycler : MonoBehaviour {
 	public float timeOfDayTransitionTime = 60;
 
 	public AtmosphereController.TimeOfDay[] timesToCycle;
-
+	public bool isEnabled;
 	private float timeSinceStartOfTransition = 0;
 	private int currentTimeIndex = 0;
 	private AtmosphereController atmosphereController;
@@ -15,13 +15,15 @@ public class TimeCycler : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		atmosphereController = FindObjectOfType<AtmosphereController>();
-		TransitionToNextTime();
+		if (isEnabled) {
+			TransitionToNextTime();
+		}
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		timeSinceStartOfTransition += Time.deltaTime;
-		if (timeSinceStartOfTransition > timeOfDayTransitionTime) {
+		if (isEnabled && timeSinceStartOfTransition > timeOfDayTransitionTime) {
 			TransitionToNextTime();
 		}
 
@@ -34,5 +36,13 @@ public class TimeCycler : MonoBehaviour {
 		if (currentTimeIndex >= timesToCycle.Length) {
 			currentTimeIndex = 0;
 		}
+	}
+
+	public void StopCycling() {
+		isEnabled = false;
+	}
+
+	public void StartCycling() {
+		isEnabled = true;
 	}
 }

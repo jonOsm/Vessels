@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 	public float hSpeed = 5f;
+	public float walkHSpeed = 2.5f;
 	public float fSpeed = 5f;
+	public float fwalkSpeed = 2.5f;
 	public float jumpVel = 5;
 	public int maxJumps = 1;
 	public bool wallJumpingEnabled = false;
@@ -20,6 +22,8 @@ public class PlayerController : MonoBehaviour {
 	private bool jumpingEnabled = true;
 	private bool jumpIsTriggered;
 	private bool isJumpCancelled;
+
+	private bool isDirectionForced;
 	
 	// Use this for initialization
 	void Start () {
@@ -62,6 +66,10 @@ public class PlayerController : MonoBehaviour {
 			forwardAxis = 0;
 		}
 
+		if (isDirectionForced) {
+			return Quaternion.Euler(0, 45, 0) * 
+				new Vector3(Mathf.Abs(horizontalAxis*hSpeed) *-1, 0, 0 );
+		}
 		return Quaternion.Euler(0, 45, 0) * 
 			new Vector3(horizontalAxis*hSpeed, 0, forwardAxis*fSpeed);
 	}
@@ -107,4 +115,14 @@ public class PlayerController : MonoBehaviour {
 	public void EnableJumping() {
 		jumpingEnabled = true;	
 	}
+
+	public void SlowMovement(float horizontalSpeed, float forwardSpeed) {
+		hSpeed = horizontalSpeed;
+		fSpeed = forwardSpeed;
+	}
+
+	public void forceDirection() {
+		isDirectionForced = true;
+	}
 }
+
