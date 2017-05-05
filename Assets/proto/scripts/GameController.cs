@@ -10,19 +10,25 @@ public class GameController : MonoBehaviour {
 	public Color friendlyLabelColor;
 	public Color neutralLabelColor;
 	public Color enemyLabelColor;
+	public float musicFadeInTime; 
 
 	public bool sceneHasPauseMenu = false;
 	public GameObject finalCameraFocus;
 	public Animator fadeOutAnimation;
+	
 	private GameObject menu;
 	private PlayerController player;
-	private CameraController camera;
+	private CameraController mainCamera;
+	private AudioSource audioSource;
+	private float musicFadeInInterpolator = 0;
+	private bool isMusicFadingIn = true;
 
 	// Use this for initialization
 	void Start () {
 		// Time.timeScale = 1;
 		player = FindObjectOfType<PlayerController>();
-		camera = FindObjectOfType<CameraController>();
+		mainCamera = FindObjectOfType<CameraController>();
+		audioSource = GetComponent<AudioSource>();
 		Cursor.visible = false;
 		if (sceneHasPauseMenu) {
 			menu = GameObject.FindGameObjectWithTag("MainMenu");
@@ -39,6 +45,10 @@ public class GameController : MonoBehaviour {
 
 		if (Input.GetButtonDown("Pause") && sceneHasPauseMenu) {
 			if (menu) ToggleMenu();
+		}
+
+		if (isMusicFadingIn) {
+			FadeInMusic();
 		}
 	}
 
@@ -66,8 +76,24 @@ public class GameController : MonoBehaviour {
 	}
 
 	public void EndPrototype() {
-		camera.setObjectToFocus(finalCameraFocus);
+		mainCamera.setObjectToFocus(finalCameraFocus);
 		
+	}
+
+	public void FadeInMusic() {
+		if(!audioSource.isPlaying)
+			audioSource.Play();
+
+		musicFadeInInterpolator += Time.deltaTime/musicFadeInTime;
+		
+		audioSource.volume = Mathf.Lerp(0, 1, musicFadeInInterpolator);
+		if (musicFadeInInterpolator > 1) {
+			isMusicFadingIn = false;
+		}
+	}
+
+	public void DeletePlayerPrefs() {
+		PlayerPrefs.DeleteAll();
 	}
 
 }

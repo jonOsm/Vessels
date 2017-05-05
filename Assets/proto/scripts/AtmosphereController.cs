@@ -13,7 +13,7 @@ public class AtmosphereController : MonoBehaviour {
 	public float defaultTransitionTime = 2f;
 	public float dayAmbientIntensity = 0.824f;
 	public float eveningAmbientIntensity = 0.824f;
-	public float nightAmbientIntensity = 0;
+	public float nightAmbientIntensity = Mathf.NegativeInfinity;
 
 	public Color daySkyColor;
 	public Color eveningSkyColor;
@@ -28,6 +28,7 @@ public class AtmosphereController : MonoBehaviour {
 	public float nightSkyLightingColor;
 
 	public TimeOfDay currentTimeofDay;
+	public bool setTimeOfDayOnStart = true;
 
 	private Color transitionStartBackgroundColor; 
 	private float transitionStartLightIntensity; 
@@ -39,8 +40,10 @@ public class AtmosphereController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		currentTimeofDay = defaultTimeOfDay;
-		ChangeTimeOfDay(currentTimeofDay, 0);
+		if (setTimeOfDayOnStart) {
+			currentTimeofDay = defaultTimeOfDay;
+			ChangeTimeOfDay(currentTimeofDay, 0);
+		}
 	}
 	
 	// Update is called once per frame

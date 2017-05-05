@@ -16,7 +16,6 @@ public class FadeOverlay : MonoBehaviour {
 	}
 
 	public void FadeOutComplete(string sceneToLoad) {
-		Debug.Log("fadeoutComplete!");
 		gameController.LoadLevel(sceneToLoad);
 	}
 }

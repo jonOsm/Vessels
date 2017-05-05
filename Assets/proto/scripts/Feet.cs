@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Feet : MonoBehaviour {
 	public float groundedRaycastDistance;
-
 	private PlayerController player;
 	private bool grounded;
 	// Use this for initialization

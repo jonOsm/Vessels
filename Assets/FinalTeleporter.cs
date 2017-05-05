@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class FinalTeleporter : MonoBehaviour {
 
+	public float timeUntilSceneEnd;
 	private GameController gameController;
 	// Use this for initialization
 	void Start () {
@@ -15,6 +16,12 @@ public class FinalTeleporter : MonoBehaviour {
 		
 	}
 	void OnTriggerEnter() {
+		PlayerPrefs.SetInt("prototypeComplete", 1);
 		gameController.EndPrototype();
+		Invoke("EndCurrentScene", timeUntilSceneEnd);
+	}
+
+	void EndCurrentScene() {
+		gameController.FadeOutOfScene();
 	}
 }

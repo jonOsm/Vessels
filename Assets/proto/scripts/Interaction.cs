@@ -28,7 +28,8 @@ public class Interaction : MonoBehaviour {
 	public InteractionStartConditions interactionType = InteractionStartConditions.EXPLICIT;
 	public InteractionExitConditions exitCondition = InteractionExitConditions.TRIGGEREXIT;
 	public bool loopInteraction = true;
-	public bool freezePlayer = false;
+	public bool freezePlayer = true;
+	public float messageDuration = 0;
 
 	
 	private int currentShard = 0;
@@ -93,7 +94,7 @@ public class Interaction : MonoBehaviour {
 
 		MessagePanel.UpdateMessage(shards[currentShard].speaker,
 								shards[currentShard].speakerType,
-								shards[currentShard].message);	
+								shards[currentShard].message, messageDuration);	
 		MessagePanel.OpenMessage();
 		currentShard++;
 
