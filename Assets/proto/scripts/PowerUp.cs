@@ -20,7 +20,7 @@ public class PowerUp : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider col) {
-		if (col.gameObject.GetComponent<InteractionArea>()) {
+		if (col.gameObject.GetComponent<Interactor>()) {
 			switch (powerupType) {
 				case PowerupType.MAXJUMPS:
 					IncreaseMaxJumps();
@@ -35,11 +35,16 @@ public class PowerUp : MonoBehaviour {
 
 	void IncreaseMaxJumps() {
 		player.maxJumps++;
-		Destroy(gameObject);
+		Disappear();
 	}
 
 	void EnableWallJumping() {
 		player.wallJumpingEnabled = true;
-		Destroy(gameObject);
+		Disappear();
+	}
+
+	void Disappear() {
+		gameObject.GetComponent<Collider>().enabled = false;
+		gameObject.GetComponent<MeshRenderer>().enabled = false;
 	}
 }

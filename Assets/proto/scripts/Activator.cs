@@ -26,7 +26,7 @@ public class Activator : MonoBehaviour {
 	
 
 	void OnTriggerEnter(Collider col) {
-		if (col.gameObject.GetComponent<InteractionArea>()) {
+		if (col.gameObject.GetComponent<Interactor>()) {
 			ActivationSwitchboard();
 		}
 	}
@@ -51,7 +51,7 @@ public class Activator : MonoBehaviour {
 		if (timesActivated > 0) return;
 		if (activatorIsOff) {
 			ActivateActivatable();
-			GetComponent<Interaction>().enabled = false;
+			// GetComponent<Interaction>().enabled = false;
 		} 
 	}
 	void ToggleActivation() {

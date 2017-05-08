@@ -5,11 +5,15 @@ using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+public enum GameState {
+	MENU_OPEN,
+	DIALOG_OPEN,
+	PLAYER_FROZEN,
+	DIALOG_ON_TIMER
+}
+
 public class GameController : MonoBehaviour {
-	public Color playerLabelColor;
-	public Color friendlyLabelColor;
-	public Color neutralLabelColor;
-	public Color enemyLabelColor;
+	public static Dictionary<GameState, bool> currentState = new Dictionary<GameState, bool>();
 	public float musicFadeInTime; 
 
 	public bool sceneHasPauseMenu = false;
@@ -24,6 +28,9 @@ public class GameController : MonoBehaviour {
 	private bool isMusicFadingIn = true;
 
 	// Use this for initialization
+	void Awake() {
+		BuildGameState();
+	}
 	void Start () {
 		// Time.timeScale = 1;
 		player = FindObjectOfType<PlayerController>();
@@ -35,13 +42,17 @@ public class GameController : MonoBehaviour {
 			menu.SetActive(false);
 		}
 	}
-	
+
+	void BuildGameState() {
+		if (currentState.Count <=0) {
+			foreach(GameState state in System.Enum.GetValues(typeof(GameState))) {
+				GameController.currentState.Add(state, false);
+			}
+		}
+	}	
+
 	// Update is called once per frame
 	void Update () {
-		// if (Input.GetKeyDown(KeyCode.Escape)) {
-		// 	Debug.Log("Should Esc on Windows");
-		// 	Application.Quit();
-		// }
 
 		if (Input.GetButtonDown("Pause") && sceneHasPauseMenu) {
 			if (menu) ToggleMenu();

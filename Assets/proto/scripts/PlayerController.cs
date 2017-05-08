@@ -99,6 +99,10 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	public void UnfreezePosition() {
+		if (GameController.currentState[GameState.PLAYER_FROZEN] ||
+			GameController.currentState[GameState.MENU_OPEN]) {
+				return;
+			}
 		rb.constraints = RigidbodyConstraints.None;
 		rb.constraints = RigidbodyConstraints.FreezeRotation;
 		EnableJumping();

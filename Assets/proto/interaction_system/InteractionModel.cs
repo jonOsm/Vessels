@@ -3,17 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-[CreateAssetMenu(fileName = "Interaction", menuName = "Narrative/Interaction")]
+[CreateAssetMenu(fileName = "Interaction", menuName = "Interaction/Interaction")]
 public class InteractionModel : ScriptableObject {
-	public enum test {
-		test1, test2
-	}
-	public int interactionID;
-	public string interactionName;
-	public Shard[] shards;
-	public bool repeatInteraction;
-	public int repeatShardStartIndex;
-	public int nextInteractionID;
-	public int previousInteractionID;
-	public int[] interactionDependencyIDs;
+	public Shard[] shards = new Shard[1];
+	public bool repeatInteraction = true;
+	public int repeatShardStartIndex = 0;
+	public bool lockPlayerMotion = true;
+	public bool activateOnTriggerEnter = false;
+	public bool selfCloseView = false;
+	public float secondsToDisplay = 0;
 }
