@@ -9,12 +9,12 @@ public class CameraController : MonoBehaviour {
 	public float forwardMoveTime;
 
 	private GameObject player;	
-	private Vector3 cameraOffset;
+	private Vector3 cameraOffset = new Vector3(-41.4f, -27.5f, -41.4f);
 
 	// Use this for initialization
 	void Start () {
 		player = FindObjectOfType<PlayerController>().gameObject;
-		cameraOffset = CalculateCameraOffset();
+		//cameraOffset = CalculateCameraOffset();
 	}
 	
 	// Update is called once per frame
@@ -27,6 +27,7 @@ public class CameraController : MonoBehaviour {
 
 	Vector3 CalculateCameraOffset() {
 		return player.transform.position - transform.position;
+
 	}
 
 	Vector3 InterpolatePosition() {
