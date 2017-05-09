@@ -36,7 +36,7 @@ public class GameController : MonoBehaviour {
 		player = FindObjectOfType<PlayerController>();
 		mainCamera = FindObjectOfType<CameraController>();
 		audioSource = GetComponent<AudioSource>();
-		Cursor.visible = false;
+		//Cursor.visible = false;
 		if (sceneHasPauseMenu) {
 			menu = GameObject.FindGameObjectWithTag("MainMenu");
 			menu.SetActive(false);

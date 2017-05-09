@@ -24,10 +24,12 @@ public class PlayerController : MonoBehaviour {
 	private bool isJumpCancelled;
 
 	private bool isDirectionForced;
+	private MobileJoystick mobileJoystick;
 	
 	// Use this for initialization
 	void Start () {
 		rb = GetComponent<Rigidbody>();	
+		mobileJoystick = FindObjectOfType<MobileJoystick>();	
 		jumpIsTriggered = false;
 	}
 		
@@ -36,7 +38,7 @@ public class PlayerController : MonoBehaviour {
 		horizontalAxis = Input.GetAxis("Horizontal");
 		forwardAxis = Input.GetAxis("Forward");
 
-		if (Input.GetButtonDown("Jump") && jumpingEnabled && currentJumps < maxJumps) {
+		if (CheckJumpInput() && jumpingEnabled && currentJumps < maxJumps) {
 			//don't want to assign false here;
 			jumpIsTriggered = true;
 
@@ -45,7 +47,10 @@ public class PlayerController : MonoBehaviour {
 		// 	Debug.Log("JUMPING OFF OF WALL");	
 		// }
 
-		if (Input.GetButtonUp("Jump")) {
+		// if (Input.GetButtonUp("Jump") || mobileJoystick.mobileJumpIsCancelled) {
+		// 	isJumpCancelled = true;
+		// }
+		if (CheckJumpInputRelease()) {
 			isJumpCancelled = true;
 		}
 	}
@@ -57,6 +62,38 @@ public class PlayerController : MonoBehaviour {
 		rb.velocity = newVel;
 	}
 
+	bool CheckJumpInput() {
+		if (Input.GetButton("Jump")) {
+			return true;
+		} 
+
+		if(Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began) {
+			Debug.Log("Screen Touched AND begin phase!");
+			return true;
+		}	
+		return false;
+
+		// if (Input.touchCount > 0) {
+		// 	if(Input.touches[0].phase == TouchPhase.Began) {
+		// 		Debug.Log("Screen Touched AND begin phase!");
+		// 		mobileJumpIsTriggered = true;
+		// 	}	
+		// 	if(Input.touches[0].phase == TouchPhase.Ended) {
+		// 		Debug.Log("Screen Touched AND begin phase!");
+		// 		mobileJumpIsCancelled = true;
+		// 	}	
+		// }
+	}
+
+	bool CheckJumpInputRelease() {
+		if (Input.GetButtonUp("Jump")) {
+			return true;
+		}
+		if(Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Ended) {
+			return true;
+		}	
+		return false;
+	}
 	Vector3 CalculateRunVector() {
 		if (Mathf.Abs(horizontalAxis) < 0.2) {
 			horizontalAxis = 0;
@@ -82,6 +119,7 @@ public class PlayerController : MonoBehaviour {
 			calculatedJumpVel=jumpVel;
 			currentJumps++;
 			jumpIsTriggered = false;
+			mobileJoystick.mobileJumpIsTriggered = false;
 		}
 
 		if (isJumpCancelled) {
@@ -89,6 +127,7 @@ public class PlayerController : MonoBehaviour {
 				calculatedJumpVel= 0;
 			}
 			isJumpCancelled = false;
+			mobileJoystick.mobileJumpIsCancelled = false;
 		}
 		return calculatedJumpVel;
 	}
