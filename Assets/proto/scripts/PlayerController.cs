@@ -24,13 +24,13 @@ public class PlayerController : MonoBehaviour {
 	private bool isJumpCancelled;
 
 	private bool isDirectionForced;
-	private MobileJoystick mobileJoystick;
+	private VJHandler virtualJoystick;
 	
 	// Use this for initialization
 	void Start () {
 		rb = GetComponent<Rigidbody>();	
-		mobileJoystick = FindObjectOfType<MobileJoystick>();	
 		jumpIsTriggered = false;
+		virtualJoystick = FindObjectOfType<VJHandler>();
 	}
 		
 	// Update is called once per frame
@@ -63,26 +63,22 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	bool CheckJumpInput() {
-		if (Input.GetButton("Jump")) {
+		if (Input.GetButtonDown("Jump")) {
 			return true;
 		} 
 
-		if(Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began) {
-			Debug.Log("Screen Touched AND begin phase!");
-			return true;
-		}	
-		return false;
+		// if(Input.touchCount > 0 && 
+		// 	Input.touches[0].phase == TouchPhase.Began &&
+		// 	Input.touches[0].position.x >= Screen.width/2) {
+		// }	
 
-		// if (Input.touchCount > 0) {
-		// 	if(Input.touches[0].phase == TouchPhase.Began) {
-		// 		Debug.Log("Screen Touched AND begin phase!");
-		// 		mobileJumpIsTriggered = true;
-		// 	}	
-		// 	if(Input.touches[0].phase == TouchPhase.Ended) {
-		// 		Debug.Log("Screen Touched AND begin phase!");
-		// 		mobileJumpIsCancelled = true;
-		// 	}	
-		// }
+		foreach (Touch touch in Input.touches) {
+			if (touch.phase == TouchPhase.Began &&
+				touch.position.x >= Screen.width/2) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	bool CheckJumpInputRelease() {
@@ -91,24 +87,36 @@ public class PlayerController : MonoBehaviour {
 		}
 		if(Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Ended) {
 			return true;
+		}
+		foreach (Touch touch in Input.touches) {
+			if (touch.phase == TouchPhase.Ended && touch.position.x >= Screen.width/2) {
+				return true;
+			}
 		}	
 		return false;
 	}
 	Vector3 CalculateRunVector() {
-		if (Mathf.Abs(horizontalAxis) < 0.2) {
-			horizontalAxis = 0;
+		float hAxis = horizontalAxis;	
+		float fAxis = forwardAxis;	
+
+		if (virtualJoystick) {
+			hAxis = virtualJoystick.InputDirection.x*-1;
+			fAxis = virtualJoystick.InputDirection.y*-1;
+		}
+		if (Mathf.Abs(hAxis) < 0.2) {
+			hAxis = 0;
 		}
 
-		if (Mathf.Abs(forwardAxis) < 0.2) {
-			forwardAxis = 0;
+		if (Mathf.Abs(fAxis) < 0.2) {
+			fAxis = 0;
 		}
 
 		if (isDirectionForced) {
 			return Quaternion.Euler(0, 45, 0) * 
-				new Vector3(Mathf.Abs(horizontalAxis*hSpeed) *-1, 0, 0 );
+				new Vector3(Mathf.Abs(hAxis*hSpeed) *-1, 0, 0 );
 		}
 		return Quaternion.Euler(0, 45, 0) * 
-			new Vector3(horizontalAxis*hSpeed, 0, forwardAxis*fSpeed);
+			new Vector3(hAxis*hSpeed, 0, fAxis*fSpeed);
 	}
 
 	float CalculateJumpVelocity() {
@@ -119,7 +127,6 @@ public class PlayerController : MonoBehaviour {
 			calculatedJumpVel=jumpVel;
 			currentJumps++;
 			jumpIsTriggered = false;
-			mobileJoystick.mobileJumpIsTriggered = false;
 		}
 
 		if (isJumpCancelled) {
@@ -127,7 +134,6 @@ public class PlayerController : MonoBehaviour {
 				calculatedJumpVel= 0;
 			}
 			isJumpCancelled = false;
-			mobileJoystick.mobileJumpIsCancelled = false;
 		}
 		return calculatedJumpVel;
 	}

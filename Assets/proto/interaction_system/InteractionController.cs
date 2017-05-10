@@ -25,7 +25,8 @@ public class InteractionController : MonoBehaviour {
 	//Update is called once per frame
 	void Update () {
 
-		if (playerInInteractionRange && !interactionIsPlaying && Input.GetButtonDown("Inspect")) {
+		if (playerInInteractionRange && !interactionIsPlaying && 
+			Input.GetButtonDown("Inspect")) {
 			StartInteraction();
 		}
 		else if (interactionIsPlaying) {
