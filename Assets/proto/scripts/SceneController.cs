@@ -19,5 +19,6 @@ public class SceneController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (Input.touchCount > 0) gameController.LoadLevel("prototype");
 	}
 }
