@@ -8,6 +8,7 @@ public class Menu : MonoBehaviour {
 
 	// Use this for initialization
 	public ScrollRect submenuScrollRect;
+	public bool isMobileDevice;
 	private EventSystem eventSystem;
 	private GameObject openSubmenu = null;
 	void Awake() {
@@ -16,11 +17,13 @@ public class Menu : MonoBehaviour {
 	}
 	void OnEnable() {
 		Time.timeScale = 0;
+		GameController.currentState[GameState.MENU_OPEN] = true;
 		eventSystem.SetSelectedGameObject(null);
 		eventSystem.SetSelectedGameObject(eventSystem.firstSelectedGameObject);
 	}
 
 	void OnDisable() {
+		GameController.currentState[GameState.MENU_OPEN] = false;
 		Time.timeScale = 1;
 	}
 
@@ -31,5 +34,10 @@ public class Menu : MonoBehaviour {
 		openSubmenu = submenu;
 		submenuScrollRect.content = submenu.GetComponent<RectTransform>();
 		submenu.SetActive(true);
+	}
+
+	public void CloseSubMenu() {
+		openSubmenu.SetActive(false);
+		openSubmenu = null;
 	}
 }

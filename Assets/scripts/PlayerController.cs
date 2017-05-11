@@ -74,7 +74,8 @@ public class PlayerController : MonoBehaviour {
 
 		foreach (Touch touch in Input.touches) {
 			if (touch.phase == TouchPhase.Began &&
-				touch.position.x >= Screen.width/2) {
+				touch.position.x >= Screen.width*0.5f &&
+				touch.position.y < Screen.height*0.8f) {
 				return true;
 			}
 		}
@@ -89,7 +90,9 @@ public class PlayerController : MonoBehaviour {
 			return true;
 		}
 		foreach (Touch touch in Input.touches) {
-			if (touch.phase == TouchPhase.Ended && touch.position.x >= Screen.width/2) {
+			if (touch.phase == TouchPhase.Ended &&
+				touch.position.x >= Screen.width*0.5f &&
+				touch.position.y < Screen.height*0.8f) {
 				return true;
 			}
 		}	
@@ -103,11 +106,11 @@ public class PlayerController : MonoBehaviour {
 			hAxis = virtualJoystick.InputDirection.x*-1;
 			fAxis = virtualJoystick.InputDirection.y*-1;
 		}
-		if (Mathf.Abs(hAxis) < 0.2) {
+		if (Mathf.Abs(hAxis) < 0.2f) {
 			hAxis = 0;
 		}
 
-		if (Mathf.Abs(fAxis) < 0.2) {
+		if (Mathf.Abs(fAxis) < 0.2f) {
 			fAxis = 0;
 		}
 

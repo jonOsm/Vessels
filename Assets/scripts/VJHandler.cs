@@ -20,23 +20,25 @@ public class VJHandler : MonoBehaviour,IDragHandler, IPointerUpHandler, IPointer
 	}
 
 	void Update() {
-		if (Input.touchCount > 0) {
-			foreach(Touch touch in Input.touches) {
-				if (touch.phase == TouchPhase.Began && touch.position.x <= Screen.width*0.5) {
-					joystickCanvas.enabled = true;
-					jsContainer.transform.position = touch.position;
-				}
+		if (!GameController.currentState[GameState.MENU_OPEN]) {
+			if (Input.touchCount > 0) {
+				foreach(Touch touch in Input.touches) {
+					if (touch.phase == TouchPhase.Began && touch.position.x <= Screen.width*0.5) {
+						joystickCanvas.enabled = true;
+						jsContainer.transform.position = touch.position;
+					}
 
-				if (touch.phase == TouchPhase.Moved && touch.position.x <= Screen.width*0.5) {
-					PointerEventData ped = new PointerEventData(EventSystem.current);
-					ped.position = touch.position;
-					ped.delta = touch.deltaPosition;
-					OnDrag(ped);
-				}
+					if (touch.phase == TouchPhase.Moved && touch.position.x <= Screen.width*0.5) {
+						PointerEventData ped = new PointerEventData(EventSystem.current);
+						ped.position = touch.position;
+						ped.delta = touch.deltaPosition;
+						OnDrag(ped);
+					}
 
-				if (touch.phase == TouchPhase.Ended && touch.position.x <= Screen.width*0.5) {
-					joystickCanvas.enabled = false;
-					OnPointerUp(new PointerEventData(EventSystem.current));
+					if (touch.phase == TouchPhase.Ended && touch.position.x <= Screen.width*0.5) {
+						joystickCanvas.enabled = false;
+						OnPointerUp(new PointerEventData(EventSystem.current));
+					}
 				}
 			}
 		}

@@ -14,7 +14,6 @@ public class TapToStartMessage : MonoBehaviour {
 	void Start () {
 		text = GetComponent<Text>();
 		color = text.color;	
-		color.a = 0;
 	}
 	
 	// Update is called once per frame
