@@ -44,7 +44,6 @@ public class GameController : MonoBehaviour {
 	}
 
 	void BuildGameState() {
-		Debug.Log(currentState.Count);
 		if (currentState.Count <=0) {
 			foreach(GameState state in System.Enum.GetValues(typeof(GameState))) {
 				GameController.currentState.Add(state, false);
@@ -106,6 +105,10 @@ public class GameController : MonoBehaviour {
 
 	public void DeletePlayerPrefs() {
 		PlayerPrefs.DeleteAll();
+	}
+
+	public void LoadNextLevel() {
+		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 	}
 
 }

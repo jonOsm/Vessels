@@ -7,12 +7,15 @@ public class Teleporter : MonoBehaviour {
 	public GameObject targetLocation;
 	public Vector3 offset = Vector3.forward;
 	public float removeControlTime = 0;
+	public bool endStageTele = false;
 
 	private AudioSource audioSource;
+	private GameController gameController;
 		
 	// Use this for initialization
 	void Start () {
 		audioSource = GetComponent<AudioSource>();
+		gameController = FindObjectOfType<GameController>();
 	}
 	
 	// Update is called once per frame
@@ -26,10 +29,16 @@ public class Teleporter : MonoBehaviour {
 			if (audioSource) {
 				audioSource.Play();
 			}
-			player.transform.position = targetLocation.transform.position+offset;
-			player.FreezePosition();
-			player.UnfreezePosition(removeControlTime);
+
+			if (targetLocation) {
+				player.transform.position = targetLocation.transform.position+offset;
+				player.FreezePosition();
+				player.UnfreezePosition(removeControlTime);
+			}
+		}
+
+		if (endStageTele) {
+			gameController.LoadNextLevel();
 		}
 	}
-	
 }

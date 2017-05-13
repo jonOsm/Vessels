@@ -60,8 +60,16 @@ public class PlayerController : MonoBehaviour {
 		Vector3 newVel = CalculateRunVector();
 		newVel.y = CalculateJumpVelocity();
 		rb.velocity = newVel;
+		transform.rotation = CalculateRotation();
 	}
 
+	Quaternion CalculateRotation() {
+		if (Mathf.Abs(rb.velocity.x) > 0 || Mathf.Abs(rb.velocity.z) > 0) {
+			return Quaternion.LookRotation(new Vector3(rb.velocity.x, 0, rb.velocity.z));
+		}
+
+		return transform.rotation;
+	}
 	bool CheckJumpInput() {
 		if (Input.GetButtonDown("Jump")) {
 			return true;

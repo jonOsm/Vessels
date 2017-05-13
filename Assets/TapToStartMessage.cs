@@ -7,7 +7,6 @@ public class TapToStartMessage : MonoBehaviour {
 
 	public float fadeTime;
 
-	private float interpolator = 0;
 	private Text text;
 	private Color color;
 	// Use this for initialization

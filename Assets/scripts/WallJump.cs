@@ -7,7 +7,7 @@ public class WallJump : MonoBehaviour {
 	private PlayerController player;
 	// Use this for initialization
 	void Start () {
-		player = GameObject.Find("Player").GetComponent<PlayerController>();	
+		player = transform.parent.GetComponent<PlayerController>();	
 	}
 
 	void OnTriggerEnter() {

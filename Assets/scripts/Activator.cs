@@ -22,6 +22,9 @@ public class Activator : MonoBehaviour {
 	void Start () {
 		 activatable = activatableGameObject.GetComponent<IActivatable>();
 		 meshRenderer = GetComponent<MeshRenderer>();
+		 if (!activatorIsOff) {
+			 UpdateMaterial();
+		 }
 	}
 	
 

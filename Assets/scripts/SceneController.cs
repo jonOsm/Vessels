@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class SceneController : MonoBehaviour {
 	
 	public AtmosphereController atmosphereController;
@@ -15,10 +14,5 @@ public class SceneController : MonoBehaviour {
 			atmosphereController.ChangeTimeOfDay(AtmosphereController.TimeOfDay.NIGHT, 0);
 			gameController.musicFadeInTime = 1000;
 		}
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		if (Input.touchCount > 0) gameController.LoadLevel("prototype");
 	}
 }

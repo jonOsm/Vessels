@@ -6,6 +6,7 @@ public class Platform : MonoBehaviour, IActivatable{
 	
 	public Material activatedMaterial;
 	public Material deactivatedMaterial;
+	public bool startSolid = false;
 
 	private BoxCollider boxCollider;
 	private MeshRenderer meshRenderer;
@@ -16,11 +17,15 @@ public class Platform : MonoBehaviour, IActivatable{
 		if (!activatedMaterial) {
 			activatedMaterial = meshRenderer.material;
 		}
+
+		if (startSolid) {
+			Activate();
+		}
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+
 	}
 
 	public void Activate() {
