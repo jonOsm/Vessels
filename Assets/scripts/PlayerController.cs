@@ -107,13 +107,17 @@ public class PlayerController : MonoBehaviour {
 		return false;
 	}
 	Vector3 CalculateRunVector() {
-		float hAxis = horizontalAxis;	
-		float fAxis = forwardAxis;	
+		float hAxis = 0;
+		float fAxis = 0;
 
 		if (virtualJoystick) {
 			hAxis = virtualJoystick.InputDirection.x*-1;
 			fAxis = virtualJoystick.InputDirection.y*-1;
 		}
+
+		if (Mathf.Abs(horizontalAxis) > 0.2) hAxis = horizontalAxis;
+		if (Mathf.Abs(forwardAxis) > 0.2) fAxis = forwardAxis;
+
 		if (Mathf.Abs(hAxis) < 0.2f) {
 			hAxis = 0;
 		}
