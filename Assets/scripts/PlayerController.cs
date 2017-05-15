@@ -41,6 +41,7 @@ public class PlayerController : MonoBehaviour {
 		playerRobot = FindObjectOfType<PlayerRobot>();
 		playerSquirrel = FindObjectOfType<PlayerSquirrel>();
 		theCamera = FindObjectOfType<CameraController>();
+
 		if (isControlledModel) {
 			controlledModel = gameObject;
 		} else {
@@ -212,17 +213,23 @@ public class PlayerController : MonoBehaviour {
 	public static void ToggleControl() {
 		controlledModel.GetComponent<PlayerController>().enabled = false;
 		controlledModel.GetComponent<AudioListener>().enabled = false;
+		controlledModel.GetComponent<PlayerController>().FreezePosition();
 
 		if (controlledModel.GetComponent<PlayerRobot>()) {
+			playerSquirrel.Unlink();
+			GameController.currentState[GameState.ROBOT_ACTIVE] = false;
+			GameController.currentState[GameState.SQUIRREL_ACTIVE] = true;
 			controlledModel = playerSquirrel.gameObject;
-			
 		}
 		else {
+			GameController.currentState[GameState.ROBOT_ACTIVE] = true;
+			GameController.currentState[GameState.SQUIRREL_ACTIVE] = false;
 			controlledModel = playerRobot.gameObject;
 
 		}
 
 		theCamera.setObjectToFocus(controlledModel);
+		controlledModel.GetComponent<PlayerController>().UnfreezePosition();
 		controlledModel.GetComponent<PlayerController>().enabled = true;
 		controlledModel.GetComponent<AudioListener>().enabled = true;
 	}

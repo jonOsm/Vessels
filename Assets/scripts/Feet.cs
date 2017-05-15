@@ -14,6 +14,7 @@ public class Feet : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		//TODO: FILTER ONLY LAYERS WE WANT TO BE ABLE TO JUMP FROM
+		Debug.DrawRay(transform.position, Vector3.down*groundedRaycastDistance, Color.red, 0.5f, false);
 		grounded = Physics.Raycast(transform.position, Vector3.down,
 			groundedRaycastDistance);
 		if (grounded) {

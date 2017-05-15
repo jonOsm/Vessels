@@ -9,7 +9,9 @@ public enum GameState {
 	MENU_OPEN,
 	DIALOG_OPEN,
 	PLAYER_FROZEN,
-	DIALOG_ON_TIMER
+	DIALOG_ON_TIMER,
+	ROBOT_ACTIVE,
+	SQUIRREL_ACTIVE
 }
 
 public class GameController : MonoBehaviour {
