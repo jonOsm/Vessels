@@ -13,7 +13,7 @@ public class CameraController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		player = FindObjectOfType<PlayerController>().gameObject;
+		player = PlayerController.controlledModel;
 		//cameraOffset = CalculateCameraOffset();
 	}
 	

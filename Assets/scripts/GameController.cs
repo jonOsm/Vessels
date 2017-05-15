@@ -14,12 +14,13 @@ public enum GameState {
 
 public class GameController : MonoBehaviour {
 	public static Dictionary<GameState, bool> currentState = new Dictionary<GameState, bool>();
+
 	public float musicFadeInTime; 
 
 	public bool sceneHasPauseMenu = false;
 	public GameObject finalCameraFocus;
 	public Animator fadeOutAnimation;
-	
+
 	private GameObject menu;
 	private PlayerController player;
 	private CameraController mainCamera;
@@ -109,6 +110,10 @@ public class GameController : MonoBehaviour {
 
 	public void LoadNextLevel() {
 		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+	}
+
+	public void TogglePlayerModel() {
+		PlayerController.ToggleControl();
 	}
 
 }

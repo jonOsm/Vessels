@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
+	public static GameObject controlledModel;
+	public static PlayerRobot playerRobot;
+	public static PlayerSquirrel playerSquirrel;
+
 	public float hSpeed = 5f;
 	public float walkHSpeed = 2.5f;
 	public float fSpeed = 5f;
@@ -10,6 +14,7 @@ public class PlayerController : MonoBehaviour {
 	public float jumpVel = 5;
 	public int maxJumps = 1;
 	public bool wallJumpingEnabled = false;
+	public bool isControlledModel = false;
 
 	[HideInInspector]
 	public int currentJumps = 0;
@@ -25,14 +30,25 @@ public class PlayerController : MonoBehaviour {
 
 	private bool isDirectionForced;
 	private VJHandler virtualJoystick;
-	
+
+	private static CameraController theCamera;
+
 	// Use this for initialization
 	void Start () {
 		rb = GetComponent<Rigidbody>();	
 		jumpIsTriggered = false;
 		virtualJoystick = FindObjectOfType<VJHandler>();
+		playerRobot = FindObjectOfType<PlayerRobot>();
+		playerSquirrel = FindObjectOfType<PlayerSquirrel>();
+		theCamera = FindObjectOfType<CameraController>();
+		if (isControlledModel) {
+			controlledModel = gameObject;
+		} else {
+			enabled = false;
+			GetComponent<AudioListener>().enabled = false;
+		}
 	}
-		
+
 	// Update is called once per frame
 	void Update () {
 		horizontalAxis = Input.GetAxis("Horizontal");
@@ -52,6 +68,10 @@ public class PlayerController : MonoBehaviour {
 		// }
 		if (CheckJumpInputRelease()) {
 			isJumpCancelled = true;
+		}
+
+		if (Input.GetKeyDown(KeyCode.I)) {
+			ToggleControl();
 		}
 	}
 
@@ -187,6 +207,24 @@ public class PlayerController : MonoBehaviour {
 
 	public void forceDirection() {
 		isDirectionForced = true;
+	}
+
+	public static void ToggleControl() {
+		controlledModel.GetComponent<PlayerController>().enabled = false;
+		controlledModel.GetComponent<AudioListener>().enabled = false;
+
+		if (controlledModel.GetComponent<PlayerRobot>()) {
+			controlledModel = playerSquirrel.gameObject;
+			
+		}
+		else {
+			controlledModel = playerRobot.gameObject;
+
+		}
+
+		theCamera.setObjectToFocus(controlledModel);
+		controlledModel.GetComponent<PlayerController>().enabled = true;
+		controlledModel.GetComponent<AudioListener>().enabled = true;
 	}
 }
 
