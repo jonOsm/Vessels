@@ -12,14 +12,14 @@ public class PlayerSquirrel : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider col) {
-		if (GameObject.FindGameObjectWithTag("Join Range")) {
+		if (col.gameObject.tag == "Join Range") {
 			Debug.Log("in linking range");
 			isInLinkingRange = true;
 		}
 	}
 
 	void OnTriggerExit(Collider col) {
-		if (GameObject.FindGameObjectWithTag("Join Range")) {
+		if (col.gameObject.tag == "Join Range") {
 			isInLinkingRange = false;
 		}
 	}
@@ -33,11 +33,13 @@ public class PlayerSquirrel : MonoBehaviour {
 
 	public void Link() {
 		isLinked = true;	
-		gameObject.GetComponent<BoxCollider>().isTrigger = true;
+		//gameObject.GetComponent<BoxCollider>().isTrigger = true;
+		gameObject.GetComponent<Rigidbody>().isKinematic = true;
 	}
 	public void Unlink() {
 		isLinked = false;
-		gameObject.GetComponent<BoxCollider>().isTrigger = false;
+		gameObject.GetComponent<Rigidbody>().isKinematic = false;
+		//gameObject.GetComponent<BoxCollider>().isTrigger = false;
 	}
 
 	public void ToggleLink() {

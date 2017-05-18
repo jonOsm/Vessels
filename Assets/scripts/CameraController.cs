@@ -7,14 +7,22 @@ public class CameraController : MonoBehaviour {
 	public float verticalMoveTime;
 	public float horizontalMoveTime;
 	public float forwardMoveTime;
+	public bool useDefaultOffset;
 
 	private GameObject player;	
-	private Vector3 cameraOffset = new Vector3(-41.4f, -27.5f, -41.4f);
+	private Vector3 cameraOffset;
+	private Vector3 defaultCameraOffset = new Vector3(-41.4f, -27.5f, -41.4f);
 
 	// Use this for initialization
 	void Start () {
 		player = PlayerController.controlledModel;
-		//cameraOffset = CalculateCameraOffset();
+		if (useDefaultOffset) {
+			cameraOffset = defaultCameraOffset; 
+		}
+		else {
+			Debug.Log("calculating_default");
+			cameraOffset = CalculateCameraOffset();
+		}
 	}
 	
 	// Update is called once per frame
