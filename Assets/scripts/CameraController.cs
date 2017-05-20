@@ -8,6 +8,7 @@ public class CameraController : MonoBehaviour {
 	public float horizontalMoveTime;
 	public float forwardMoveTime;
 	public bool useDefaultOffset;
+	public float zoomStep;
 
 	private GameObject player;	
 	private Vector3 cameraOffset;
@@ -55,5 +56,20 @@ public class CameraController : MonoBehaviour {
 
 	public void setObjectToFocus(GameObject objectToFocus) {
 		player = objectToFocus;
+	}
+
+	public void ZoomIn() {
+		cameraOffset = Vector3.MoveTowards(cameraOffset, Vector3.zero, zoomStep);
+		//gameObject.GetComponent<Camera>().fieldOfView = gameObject.GetComponent<Camera>().fieldOfView +1;
+
+	}
+
+	public void ZoomOut() {
+
+		cameraOffset = Vector3.MoveTowards(cameraOffset, Vector3.zero, -zoomStep);
+		//cameraOffset = Vector3.MoveTowards(transform.position,  player.transform.position, -zoomStep);
+		// cameraOffset = Vector3.MoveTowards(cameraOffset, player.transform.position, -zoomStep);
+		//gameObject.GetComponent<Camera>().fieldOfView = gameObject.GetComponent<Camera>().fieldOfView -1;
+		//transform.position = Vector3.MoveTowards(transform.position, player.transform.position, -zoomStep);
 	}
 }

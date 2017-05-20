@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour {
 
 	private float horizontalAxis;
 	private float forwardAxis; 
+	private float scrollAxis; 
 
 	private bool jumpingEnabled = true;
 	private bool jumpIsTriggered;
@@ -54,6 +55,8 @@ public class PlayerController : MonoBehaviour {
 	void Update () {
 		horizontalAxis = Input.GetAxis("Horizontal");
 		forwardAxis = Input.GetAxis("Forward");
+		scrollAxis = Input.GetAxis("Mouse ScrollWheel");
+		
 
 		if (CheckJumpInput() && jumpingEnabled && currentJumps < maxJumps) {
 			//don't want to assign false here;
@@ -74,6 +77,15 @@ public class PlayerController : MonoBehaviour {
 		if (Input.GetKeyDown(KeyCode.I)) {
 			ToggleControl();
 		}
+
+		if(scrollAxis > 0) {
+			Debug.Log("Scrolling up by " + scrollAxis);
+			theCamera.ZoomIn();
+		} else if (scrollAxis < 0) {
+			Debug.Log("Scrolling up by " + scrollAxis);
+			theCamera.ZoomOut();
+		}
+
 	}
 
 	void FixedUpdate() {
