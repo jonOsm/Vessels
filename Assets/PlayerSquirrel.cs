@@ -7,8 +7,15 @@ public class PlayerSquirrel : MonoBehaviour {
 	[HideInInspector]
 	public bool isInLinkingRange;
 	public Vector3 linkedOffset = new Vector3(0, 0.5f,0);
+
+	private float startMass;
+
 	void Start() {
-		if (isLinked) Link();
+		if (isLinked) {
+			isInLinkingRange = true;
+			Link();
+		}
+		startMass = gameObject.GetComponent<Rigidbody>().mass;
 	}
 
 	void OnTriggerEnter(Collider col) {
@@ -32,17 +39,27 @@ public class PlayerSquirrel : MonoBehaviour {
 	}
 
 	public void Link() {
+		if (!isInLinkingRange) return;
 		isLinked = true;	
+
+		gameObject.GetComponent<Rigidbody>().mass = 0;
+		//gameObject.GetComponent<PlayerController>().FreezePosition();
 		//gameObject.GetComponent<BoxCollider>().isTrigger = true;
-		gameObject.GetComponent<Rigidbody>().isKinematic = true;
+		// gameObject.GetComponent<Rigidbody>().isKinematic = true;
+
+		if (GameController.currentState[GameState.SQUIRREL_ACTIVE])
+			PlayerController.ToggleControl();
 	}
 	public void Unlink() {
 		isLinked = false;
-		gameObject.GetComponent<Rigidbody>().isKinematic = false;
+		gameObject.GetComponent<Rigidbody>().mass = startMass;
+		//gameObject.GetComponent<PlayerController>().UnfreezePosition();
+		// gameObject.GetComponent<Rigidbody>().isKinematic = false;
 		//gameObject.GetComponent<BoxCollider>().isTrigger = false;
 	}
 
 	public void ToggleLink() {
+
 		if (isLinked) {
 			Unlink();
 		} else {

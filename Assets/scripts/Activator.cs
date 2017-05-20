@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace Game
+{
 public class Activator : MonoBehaviour {
 	public enum ActivatorType {
 		SINGLEUSE,
@@ -83,4 +85,5 @@ public class Activator : MonoBehaviour {
 			meshRenderer.material = onMaterial;
 		}
 	}
+}
 }

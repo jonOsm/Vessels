@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour {
 	private float horizontalAxis;
 	private float forwardAxis; 
 	private float scrollAxis; 
+	private float rotationAxis; 
 
 	private bool jumpingEnabled = true;
 	private bool jumpIsTriggered;
@@ -33,6 +34,7 @@ public class PlayerController : MonoBehaviour {
 	private VJHandler virtualJoystick;
 
 	private static CameraController theCamera;
+	private GameController gameController;
 
 	// Use this for initialization
 	void Start () {
@@ -42,6 +44,7 @@ public class PlayerController : MonoBehaviour {
 		playerRobot = FindObjectOfType<PlayerRobot>();
 		playerSquirrel = FindObjectOfType<PlayerSquirrel>();
 		theCamera = FindObjectOfType<CameraController>();
+		gameController = FindObjectOfType<GameController>();
 
 		if (isControlledModel) {
 			controlledModel = gameObject;
@@ -56,20 +59,16 @@ public class PlayerController : MonoBehaviour {
 		horizontalAxis = Input.GetAxis("Horizontal");
 		forwardAxis = Input.GetAxis("Forward");
 		scrollAxis = Input.GetAxis("Mouse ScrollWheel");
-		
+		rotationAxis = Input.GetAxis("Camera Rotation");
+		bool swapControlButtonDown = Input.GetButtonDown("Swap Control");
+		bool linkControlButtonDown = Input.GetButtonDown("Link Control");
 
 		if (CheckJumpInput() && jumpingEnabled && currentJumps < maxJumps) {
 			//don't want to assign false here;
 			jumpIsTriggered = true;
 
 		 }
-		//  else if (Input.GetButtonDown("Jump") && jumpingEnabled && isAgainstWall) {
-		// 	Debug.Log("JUMPING OFF OF WALL");	
-		// }
-
-		// if (Input.GetButtonUp("Jump") || mobileJoystick.mobileJumpIsCancelled) {
-		// 	isJumpCancelled = true;
-		// }
+	
 		if (CheckJumpInputRelease()) {
 			isJumpCancelled = true;
 		}
@@ -79,13 +78,22 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		if(scrollAxis > 0) {
-			Debug.Log("Scrolling up by " + scrollAxis);
 			theCamera.ZoomIn();
 		} else if (scrollAxis < 0) {
-			Debug.Log("Scrolling up by " + scrollAxis);
 			theCamera.ZoomOut();
 		}
 
+		if (swapControlButtonDown) {
+			gameController.TogglePlayerModel();
+		}
+
+		if (linkControlButtonDown) {
+			playerSquirrel.Link();
+		}
+
+		if (rotationAxis != 0) {
+			theCamera.RotateAroundFocus(rotationAxis);
+		}
 	}
 
 	void FixedUpdate() {

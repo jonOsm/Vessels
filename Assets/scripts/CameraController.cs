@@ -13,6 +13,7 @@ public class CameraController : MonoBehaviour {
 	private GameObject player;	
 	private Vector3 cameraOffset;
 	private Vector3 defaultCameraOffset = new Vector3(-41.4f, -27.5f, -41.4f);
+	private float rotationInputFactor;
 
 	// Use this for initialization
 	void Start () {
@@ -32,6 +33,11 @@ public class CameraController : MonoBehaviour {
 	}
 	void FixedUpdate() {
 			gameObject.transform.position = InterpolatePosition();
+			if (Mathf.Abs(rotationInputFactor) > 0) {
+				gameObject.transform.RotateAround(player.transform.position, Vector3.up, rotationInputFactor);
+				cameraOffset = CalculateCameraOffset();
+			}
+
 	}
 
 	Vector3 CalculateCameraOffset() {
@@ -60,16 +66,14 @@ public class CameraController : MonoBehaviour {
 
 	public void ZoomIn() {
 		cameraOffset = Vector3.MoveTowards(cameraOffset, Vector3.zero, zoomStep);
-		//gameObject.GetComponent<Camera>().fieldOfView = gameObject.GetComponent<Camera>().fieldOfView +1;
 
 	}
 
 	public void ZoomOut() {
-
 		cameraOffset = Vector3.MoveTowards(cameraOffset, Vector3.zero, -zoomStep);
-		//cameraOffset = Vector3.MoveTowards(transform.position,  player.transform.position, -zoomStep);
-		// cameraOffset = Vector3.MoveTowards(cameraOffset, player.transform.position, -zoomStep);
-		//gameObject.GetComponent<Camera>().fieldOfView = gameObject.GetComponent<Camera>().fieldOfView -1;
-		//transform.position = Vector3.MoveTowards(transform.position, player.transform.position, -zoomStep);
+	}
+
+	public void RotateAroundFocus(float inputFactor) {
+		rotationInputFactor = inputFactor;
 	}
 }
