@@ -9,11 +9,14 @@ public class CameraController : MonoBehaviour {
 	public float forwardMoveTime;
 	public bool useDefaultOffset;
 	public float zoomStep;
+	public float rotationSpeed;
 
 	private GameObject player;	
 	private Vector3 cameraOffset;
 	private Vector3 defaultCameraOffset = new Vector3(-41.4f, -27.5f, -41.4f);
 	private float rotationInputFactor;
+	private float peakHorizontalInputFactor;
+	private float interpolationMultiplier = 1;
 
 	// Use this for initialization
 	void Start () {
@@ -32,12 +35,25 @@ public class CameraController : MonoBehaviour {
 
 	}
 	void FixedUpdate() {
-			if (Mathf.Abs(rotationInputFactor) > 0) {
-				gameObject.transform.RotateAround(player.transform.position, Vector3.up, rotationInputFactor);
-				cameraOffset = CalculateCameraOffset();
-			}
+			//Debug.Log("before: " + transform.position);
 			gameObject.transform.position = InterpolatePosition();
+			//Debug.Log("after: " + transform.position);
+			if (Mathf.Abs(rotationInputFactor) > 0) {
+				transform.Rotate(new Vector3(0,rotationInputFactor*rotationSpeed, 0) ,Space.World);
+				cameraOffset = Quaternion.Euler(0, rotationInputFactor*rotationSpeed, 0) * cameraOffset;
+				interpolationMultiplier = 6;
+			}
+			else {
+				interpolationMultiplier = 1;
+			}
+	}
 
+	void LateUpdate() {
+			// if (Mathf.Abs(rotationInputFactor) > 0) {
+			// 	gameObject.transform.RotateAround(player.transform.position, Vector3.up, rotationInputFactor);
+			// 	cameraOffset = CalculateCameraOffset();
+			// 	transform.LookAt(player.transform);
+			// }
 	}
 
 	Vector3 CalculateCameraOffset() {
@@ -49,19 +65,19 @@ public class CameraController : MonoBehaviour {
 		Vector3 newCameraPos = new Vector3();
 		Vector3 playerPos = player.transform.position;
 
-		// if (Mathf.Abs(rotationInputFactor) > 0) {
-		// 	gameObject.transform.RotateAround(player.transform.position, Vector3.up, rotationInputFactor);
-		// 	cameraOffset = CalculateCameraOffset();
-		// }
-
-
 		//IMPORTANT: that this is NOT the way the unity docs uses lerp, in this case the camera position is acting as interpolator
-
-		newCameraPos.y = Mathf.Lerp(transform.position.y, playerPos.y-cameraOffset.y, verticalMoveTime*Time.fixedDeltaTime);
-		newCameraPos.x = Mathf.Lerp(transform.position.x, playerPos.x-cameraOffset.x, horizontalMoveTime*Time.fixedDeltaTime);
-		newCameraPos.z = Mathf.Lerp(transform.position.z, playerPos.z-cameraOffset.z, forwardMoveTime*Time.fixedDeltaTime);
+			newCameraPos.x = Mathf.Lerp(transform.position.x, playerPos.x-cameraOffset.x, horizontalMoveTime*Time.fixedDeltaTime*interpolationMultiplier);
+			newCameraPos.y = Mathf.Lerp(transform.position.y, playerPos.y-cameraOffset.y, verticalMoveTime*Time.fixedDeltaTime*interpolationMultiplier);
+			newCameraPos.z = Mathf.Lerp(transform.position.z, playerPos.z-cameraOffset.z, forwardMoveTime*Time.fixedDeltaTime*interpolationMultiplier);
 		//note: you can fairly easily add dead zone by stopping interpolation if within a certain range
 		//note: you can snap to middle if within a certain range as well
+		
+
+		//interesting effect, pulls camera away from center so you can peak at the left and right areas of the map
+		// if (Mathf.Abs(peakHorizontalInputFactor) > 0) {
+		// 	transform.RotateAround(player.transform.position, Vector3.up, peakHorizontalInputFactor);
+		// 	return Quaternion.Euler(0, rotationInputFactor, 0) * newCameraPos;
+		// }
 		return newCameraPos;
 
 	}
@@ -81,5 +97,9 @@ public class CameraController : MonoBehaviour {
 
 	public void RotateAroundFocus(float inputFactor) {
 		rotationInputFactor = inputFactor;
+	}
+
+	public void PeakHorizontal(float inputFactor) {
+		peakHorizontalInputFactor = inputFactor;
 	}
 }

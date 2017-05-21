@@ -91,9 +91,8 @@ public class PlayerController : MonoBehaviour {
 			playerSquirrel.Link();
 		}
 
-		if (rotationAxis != 0) {
-			theCamera.RotateAroundFocus(rotationAxis);
-		}
+		
+		theCamera.RotateAroundFocus(rotationAxis);
 	}
 
 	void FixedUpdate() {
