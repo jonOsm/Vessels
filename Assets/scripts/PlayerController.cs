@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour {
 	public int maxJumps = 1;
 	public bool wallJumpingEnabled = false;
 	public bool isControlledModel = false;
-
+	public bool	inFreeCameraMode;
 	[HideInInspector]
 	public int currentJumps = 0;
 
@@ -165,6 +165,12 @@ public class PlayerController : MonoBehaviour {
 
 		if (Mathf.Abs(fAxis) < 0.2f) {
 			fAxis = 0;
+		}
+		if (inFreeCameraMode) {
+
+			//TODO: UNDERSTAND HOW THIS WORKS BECAUSE HONESTLY I HAVE NO IDEA I JUST GOT LUCKY
+			Vector3 rawVector = new Vector3(hAxis*hSpeed, 0, fAxis*fSpeed);
+			return theCamera.transform.TransformDirection(-rawVector);
 		}
 
 		if (isDirectionForced) {

@@ -32,11 +32,11 @@ public class CameraController : MonoBehaviour {
 
 	}
 	void FixedUpdate() {
-			gameObject.transform.position = InterpolatePosition();
 			if (Mathf.Abs(rotationInputFactor) > 0) {
 				gameObject.transform.RotateAround(player.transform.position, Vector3.up, rotationInputFactor);
 				cameraOffset = CalculateCameraOffset();
 			}
+			gameObject.transform.position = InterpolatePosition();
 
 	}
 
@@ -48,6 +48,12 @@ public class CameraController : MonoBehaviour {
 	Vector3 InterpolatePosition() {
 		Vector3 newCameraPos = new Vector3();
 		Vector3 playerPos = player.transform.position;
+
+		// if (Mathf.Abs(rotationInputFactor) > 0) {
+		// 	gameObject.transform.RotateAround(player.transform.position, Vector3.up, rotationInputFactor);
+		// 	cameraOffset = CalculateCameraOffset();
+		// }
+
 
 		//IMPORTANT: that this is NOT the way the unity docs uses lerp, in this case the camera position is acting as interpolator
 
