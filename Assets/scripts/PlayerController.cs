@@ -72,6 +72,7 @@ public class PlayerController : MonoBehaviour {
 		bool swapControlButtonDown = Input.GetButtonDown("Swap Control");
 		bool linkControlButtonDown = Input.GetButtonDown("Link Control");
 
+		Debug.Log(rb.velocity);
 		if (feet.grounded && rb.velocity.y <=0) {
 				currentJumps = 0;
 				currentMaxVerticalVel = maxVerticalWalkVel;
@@ -188,7 +189,9 @@ public class PlayerController : MonoBehaviour {
 
 			//TODO: UNDERSTAND HOW THIS WORKS BECAUSE HONESTLY I HAVE NO IDEA I JUST GOT LUCKY
 			Vector3 rawVector = new Vector3(hAxis*hSpeed, 0, fAxis*fSpeed);
-			return theCamera.transform.TransformDirection(-rawVector);
+			Quaternion q = theCamera.transform.rotation;
+			return Quaternion.Euler(0, q.eulerAngles.y, 0) * rawVector*-1;
+			//return theCamera.transform.TransformDirection(-rawVector);
 		}
 
 		if (isDirectionForced) {
