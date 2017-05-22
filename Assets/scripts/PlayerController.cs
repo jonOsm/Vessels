@@ -11,13 +11,18 @@ public class PlayerController : MonoBehaviour {
 	public float walkHSpeed = 2.5f;
 	public float fSpeed = 5f;
 	public float fwalkSpeed = 2.5f;
+	public float maxVerticalWalkVel = 4;
 	public float jumpVel = 5;
 	public int maxJumps = 1;
 	public bool wallJumpingEnabled = false;
 	public bool isControlledModel = false;
 	public bool	inFreeCameraMode;
-	[HideInInspector]
+
+	
 	public int currentJumps = 0;
+
+	[HideInInspector]
+	public float currentMaxVerticalVel;
 
 	private Rigidbody rb;
 
@@ -35,6 +40,7 @@ public class PlayerController : MonoBehaviour {
 
 	private static CameraController theCamera;
 	private GameController gameController;
+	private Feet feet;
 
 	// Use this for initialization
 	void Start () {
@@ -45,6 +51,9 @@ public class PlayerController : MonoBehaviour {
 		playerSquirrel = FindObjectOfType<PlayerSquirrel>();
 		theCamera = FindObjectOfType<CameraController>();
 		gameController = FindObjectOfType<GameController>();
+		feet = GetComponentInChildren<Feet>();
+
+		currentMaxVerticalVel = maxVerticalWalkVel;
 
 		if (isControlledModel) {
 			controlledModel = gameObject;
@@ -62,6 +71,11 @@ public class PlayerController : MonoBehaviour {
 		rotationAxis = Input.GetAxis("Camera Rotation");
 		bool swapControlButtonDown = Input.GetButtonDown("Swap Control");
 		bool linkControlButtonDown = Input.GetButtonDown("Link Control");
+
+		if (feet.grounded && rb.velocity.y <=0) {
+				currentJumps = 0;
+				currentMaxVerticalVel = maxVerticalWalkVel;
+		}
 
 		if (CheckJumpInput() && jumpingEnabled && currentJumps < maxJumps) {
 			//don't want to assign false here;
@@ -91,14 +105,19 @@ public class PlayerController : MonoBehaviour {
 			playerSquirrel.Link();
 		}
 
+
 		
 		theCamera.RotateAroundFocus(rotationAxis);
 	}
 
 	void FixedUpdate() {
-
+		Debug.Log(currentMaxVerticalVel);
 		Vector3 newVel = CalculateRunVector();
+		
 		newVel.y = CalculateJumpVelocity();
+		//newVel.y = newVel.y > currentMaxVerticalVel ? currentMaxVerticalVel : newVel.y; 
+		newVel.y = Mathf.Min(newVel.y, currentMaxVerticalVel);
+
 		rb.velocity = newVel;
 		transform.rotation = CalculateRotation();
 	}
@@ -184,10 +203,12 @@ public class PlayerController : MonoBehaviour {
 		float calculatedJumpVel = rb.velocity.y;
 
 		if (jumpIsTriggered) {
-			// rb.useGravity = false;
+				
 			calculatedJumpVel=jumpVel;
 			currentJumps++;
+			//Debug.Break();
 			jumpIsTriggered = false;
+			currentMaxVerticalVel = jumpVel;
 		}
 
 		if (isJumpCancelled) {

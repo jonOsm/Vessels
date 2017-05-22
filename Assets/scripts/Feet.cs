@@ -5,7 +5,7 @@ using UnityEngine;
 public class Feet : MonoBehaviour {
 	public float groundedRaycastDistance;
 	private PlayerController player;
-	private bool grounded;
+	public bool grounded;
 	// Use this for initialization
 	void Start () {
 		player = transform.parent.gameObject.GetComponent<PlayerController>();
@@ -17,8 +17,14 @@ public class Feet : MonoBehaviour {
 		Debug.DrawRay(transform.position, Vector3.down*groundedRaycastDistance, Color.red, 0.5f, false);
 		grounded = Physics.Raycast(transform.position, Vector3.down,
 			groundedRaycastDistance);
-		if (grounded) {
-			player.currentJumps = 0;
-		}
+		// if (grounded) {
+		// 	player.currentJumps = 0;
+		// }
+	}
+
+	void LateUpdate() {
+		// if (grounded) {
+		// 	player.currentMaxVerticalVel = player.maxVerticalWalkVel;
+		// }
 	}
 }
