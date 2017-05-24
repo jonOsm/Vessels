@@ -72,7 +72,6 @@ public class PlayerController : MonoBehaviour {
 		bool swapControlButtonDown = Input.GetButtonDown("Swap Control");
 		bool linkControlButtonDown = Input.GetButtonDown("Link Control");
 
-		Debug.Log(rb.velocity);
 		if (feet.grounded && rb.velocity.y <=0) {
 				currentJumps = 0;
 				currentMaxVerticalVel = maxVerticalWalkVel;
@@ -112,7 +111,6 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void FixedUpdate() {
-		Debug.Log(currentMaxVerticalVel);
 		Vector3 newVel = CalculateRunVector();
 		
 		newVel.y = CalculateJumpVelocity();
@@ -282,5 +280,6 @@ public class PlayerController : MonoBehaviour {
 		controlledModel.GetComponent<PlayerController>().enabled = true;
 		controlledModel.GetComponent<AudioListener>().enabled = true;
 	}
+
 }
 

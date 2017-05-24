@@ -1,15 +1,22 @@
 fileFormatVersion: 2
 guid: f584c1389a2ea7a49aca9d55baaac1cc
-timeCreated: 1495473699
+timeCreated: 1495484902
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
-    100000: //RootNode
-    400000: //RootNode
-    2300000: //RootNode
-    3300000: //RootNode
-    4300000: forest_lab_b_1
+    100000: Floor
+    100002: //RootNode
+    100004: Walls
+    400000: Floor
+    400002: //RootNode
+    400004: Walls
+    2300000: Floor
+    2300002: Walls
+    3300000: Floor
+    3300002: Walls
+    4300000: Walls
+    4300002: Floor
   materials:
     importMaterials: 1
     materialName: 0

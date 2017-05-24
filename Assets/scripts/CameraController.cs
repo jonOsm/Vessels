@@ -1,15 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using cakeslice;
 
 public class CameraController : MonoBehaviour {
-	public bool lockVerticalMotion = false;
+	public bool lockCameraPos;	
 	public float verticalMoveTime;
 	public float horizontalMoveTime;
 	public float forwardMoveTime;
 	public bool useDefaultOffset;
 	public float zoomStep;
 	public float rotationSpeed;
+	public LayerMask playerVisibleMask;
 
 	private GameObject player;	
 	private Vector3 cameraOffset;
@@ -17,43 +19,45 @@ public class CameraController : MonoBehaviour {
 	private float rotationInputFactor;
 	private float peakHorizontalInputFactor;
 	private float interpolationMultiplier = 1;
+	private Camera theCamera;
 
 	// Use this for initialization
 	void Start () {
 		player = PlayerController.controlledModel;
+		theCamera = GetComponent<Camera>();
 		if (useDefaultOffset) {
 			cameraOffset = defaultCameraOffset; 
 		}
 		else {
-			Debug.Log("calculating_default");
 			cameraOffset = CalculateCameraOffset();
 		}
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
+		RaycastHit hit;
+		Debug.DrawLine(transform.position, player.transform.position, Color.green, 0, false);
+		var playerInView = Physics.Linecast(this.transform.position, player.transform.position, out hit, playerVisibleMask);
+		if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Player")) {
+			Debug.Log("hit");
+			player.GetComponentInChildren<Outline>().eraseRenderer = true;
+		} else {
+			Debug.Log("not hit");
+			player.GetComponentInChildren<Outline>().eraseRenderer = false;
+		}
 	}
 	void FixedUpdate() {
-			//Debug.Log("before: " + transform.position);
-			gameObject.transform.position = InterpolatePosition();
-			//Debug.Log("after: " + transform.position);
-			if (Mathf.Abs(rotationInputFactor) > 0) {
-				transform.Rotate(new Vector3(0,rotationInputFactor*rotationSpeed, 0) ,Space.World);
-				cameraOffset = Quaternion.Euler(0, rotationInputFactor*rotationSpeed, 0) * cameraOffset;
-				interpolationMultiplier = 6;
-			}
-			else {
-				interpolationMultiplier = 1;
-			}
-	}
+		if (lockCameraPos) return;
 
-	void LateUpdate() {
-			// if (Mathf.Abs(rotationInputFactor) > 0) {
-			// 	gameObject.transform.RotateAround(player.transform.position, Vector3.up, rotationInputFactor);
-			// 	cameraOffset = CalculateCameraOffset();
-			// 	transform.LookAt(player.transform);
-			// }
+		gameObject.transform.position = InterpolatePosition();
+		if (Mathf.Abs(rotationInputFactor) > 0) {
+			transform.Rotate(new Vector3(0,rotationInputFactor*rotationSpeed, 0) ,Space.World);
+			cameraOffset = Quaternion.Euler(0, rotationInputFactor*rotationSpeed, 0) * cameraOffset;
+			interpolationMultiplier = 6;
+		}
+		else {
+			interpolationMultiplier = 1;
+		}
 	}
 
 	Vector3 CalculateCameraOffset() {
@@ -102,4 +106,6 @@ public class CameraController : MonoBehaviour {
 	public void PeakHorizontal(float inputFactor) {
 		peakHorizontalInputFactor = inputFactor;
 	}
+
+	
 }
