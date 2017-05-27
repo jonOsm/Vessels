@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: a44b1a19ac2bbc34b93308e5878f4fdc
-timeCreated: 1495892327
+guid: 7847d5bff829a734a906c11874a81100
+timeCreated: 1495909340
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -170,36 +170,35 @@ ModelImporter:
     100324: Plane.048
     100326: Plane.049
     100328: Plane.050
-    100330: Plane.051
-    100332: Plane.052
-    100334: Plane.053
-    100336: Plane.054
-    100338: Plane.055
-    100340: Plane.056
-    100342: Plane.057
-    100344: Plane.058
-    100346: Plane.059
-    100348: Plane.060
-    100350: Plane.061
-    100352: Plane.062
-    100354: Plane.063
-    100356: Plane.064
-    100358: Plane.065
-    100360: Plane.066
-    100362: Plane.067
-    100364: Plane.068
-    100366: Plane.069
-    100368: Plane.070
-    100370: Plane.071
-    100372: Plane.072
-    100374: Plane.073
-    100376: Plane.074
-    100378: Plane.075
-    100380: Plane.076
-    100382: Plane.077
-    100384: stairs
-    100386: stairs.001
-    100388: stairs_collider_mesh
+    100330: Plane.052
+    100332: Plane.053
+    100334: Plane.054
+    100336: Plane.055
+    100338: Plane.056
+    100340: Plane.057
+    100342: Plane.058
+    100344: Plane.059
+    100346: Plane.060
+    100348: Plane.061
+    100350: Plane.062
+    100352: Plane.063
+    100354: Plane.064
+    100356: Plane.065
+    100358: Plane.066
+    100360: Plane.067
+    100362: Plane.068
+    100364: Plane.069
+    100366: Plane.070
+    100368: Plane.071
+    100370: Plane.072
+    100372: Plane.073
+    100374: Plane.074
+    100376: Plane.075
+    100378: Plane.076
+    100380: Plane.077
+    100382: stairs
+    100384: stairs.001
+    100386: stairs_collider_mesh
     400000: Cube
     400002: Cube.001
     400004: Cube.002
@@ -365,36 +364,35 @@ ModelImporter:
     400324: Plane.048
     400326: Plane.049
     400328: Plane.050
-    400330: Plane.051
-    400332: Plane.052
-    400334: Plane.053
-    400336: Plane.054
-    400338: Plane.055
-    400340: Plane.056
-    400342: Plane.057
-    400344: Plane.058
-    400346: Plane.059
-    400348: Plane.060
-    400350: Plane.061
-    400352: Plane.062
-    400354: Plane.063
-    400356: Plane.064
-    400358: Plane.065
-    400360: Plane.066
-    400362: Plane.067
-    400364: Plane.068
-    400366: Plane.069
-    400368: Plane.070
-    400370: Plane.071
-    400372: Plane.072
-    400374: Plane.073
-    400376: Plane.074
-    400378: Plane.075
-    400380: Plane.076
-    400382: Plane.077
-    400384: stairs
-    400386: stairs.001
-    400388: stairs_collider_mesh
+    400330: Plane.052
+    400332: Plane.053
+    400334: Plane.054
+    400336: Plane.055
+    400338: Plane.056
+    400340: Plane.057
+    400342: Plane.058
+    400344: Plane.059
+    400346: Plane.060
+    400348: Plane.061
+    400350: Plane.062
+    400352: Plane.063
+    400354: Plane.064
+    400356: Plane.065
+    400358: Plane.066
+    400360: Plane.067
+    400362: Plane.068
+    400364: Plane.069
+    400366: Plane.070
+    400368: Plane.071
+    400370: Plane.072
+    400372: Plane.073
+    400374: Plane.074
+    400376: Plane.075
+    400378: Plane.076
+    400380: Plane.077
+    400382: stairs
+    400384: stairs.001
+    400386: stairs_collider_mesh
     2300000: Cube
     2300002: Cube.001
     2300004: Cube.002
@@ -557,36 +555,35 @@ ModelImporter:
     2300318: Plane.048
     2300320: Plane.049
     2300322: Plane.050
-    2300324: Plane.051
-    2300326: Plane.052
-    2300328: Plane.053
-    2300330: Plane.054
-    2300332: Plane.055
-    2300334: Plane.056
-    2300336: Plane.057
-    2300338: Plane.058
-    2300340: Plane.059
-    2300342: Plane.060
-    2300344: Plane.061
-    2300346: Plane.062
-    2300348: Plane.063
-    2300350: Plane.064
-    2300352: Plane.065
-    2300354: Plane.066
-    2300356: Plane.067
-    2300358: Plane.068
-    2300360: Plane.069
-    2300362: Plane.070
-    2300364: Plane.071
-    2300366: Plane.072
-    2300368: Plane.073
-    2300370: Plane.074
-    2300372: Plane.075
-    2300374: Plane.076
-    2300376: Plane.077
-    2300378: stairs
-    2300380: stairs.001
-    2300382: stairs_collider_mesh
+    2300324: Plane.052
+    2300326: Plane.053
+    2300328: Plane.054
+    2300330: Plane.055
+    2300332: Plane.056
+    2300334: Plane.057
+    2300336: Plane.058
+    2300338: Plane.059
+    2300340: Plane.060
+    2300342: Plane.061
+    2300344: Plane.062
+    2300346: Plane.063
+    2300348: Plane.064
+    2300350: Plane.065
+    2300352: Plane.066
+    2300354: Plane.067
+    2300356: Plane.068
+    2300358: Plane.069
+    2300360: Plane.070
+    2300362: Plane.071
+    2300364: Plane.072
+    2300366: Plane.073
+    2300368: Plane.074
+    2300370: Plane.075
+    2300372: Plane.076
+    2300374: Plane.077
+    2300376: stairs
+    2300378: stairs.001
+    2300380: stairs_collider_mesh
     3300000: Cube
     3300002: Cube.001
     3300004: Cube.002
@@ -749,37 +746,36 @@ ModelImporter:
     3300318: Plane.048
     3300320: Plane.049
     3300322: Plane.050
-    3300324: Plane.051
-    3300326: Plane.052
-    3300328: Plane.053
-    3300330: Plane.054
-    3300332: Plane.055
-    3300334: Plane.056
-    3300336: Plane.057
-    3300338: Plane.058
-    3300340: Plane.059
-    3300342: Plane.060
-    3300344: Plane.061
-    3300346: Plane.062
-    3300348: Plane.063
-    3300350: Plane.064
-    3300352: Plane.065
-    3300354: Plane.066
-    3300356: Plane.067
-    3300358: Plane.068
-    3300360: Plane.069
-    3300362: Plane.070
-    3300364: Plane.071
-    3300366: Plane.072
-    3300368: Plane.073
-    3300370: Plane.074
-    3300372: Plane.075
-    3300374: Plane.076
-    3300376: Plane.077
-    3300378: stairs
-    3300380: stairs.001
-    3300382: stairs_collider_mesh
-    4300000: Cube.110
+    3300324: Plane.052
+    3300326: Plane.053
+    3300328: Plane.054
+    3300330: Plane.055
+    3300332: Plane.056
+    3300334: Plane.057
+    3300336: Plane.058
+    3300338: Plane.059
+    3300340: Plane.060
+    3300342: Plane.061
+    3300344: Plane.062
+    3300346: Plane.063
+    3300348: Plane.064
+    3300350: Plane.065
+    3300352: Plane.066
+    3300354: Plane.067
+    3300356: Plane.068
+    3300358: Plane.069
+    3300360: Plane.070
+    3300362: Plane.071
+    3300364: Plane.072
+    3300366: Plane.073
+    3300368: Plane.074
+    3300370: Plane.075
+    3300372: Plane.076
+    3300374: Plane.077
+    3300376: stairs
+    3300378: stairs.001
+    3300380: stairs_collider_mesh
+    4300000: Cube.109
     4300002: Plane.071
     4300004: Plane.077
     4300006: Plane.058

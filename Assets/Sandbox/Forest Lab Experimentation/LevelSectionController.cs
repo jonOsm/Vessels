@@ -29,10 +29,18 @@ public class LevelSectionController : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider col) {
-		// Debug.Log("sup?");
-		// if (col.GetComponent<Interactor>()) {
-		// 	levelRenderController.HideAll();
-		// 	MakeVisibleToMainCamera();
-		// }
+		Debug.Log("sup?");
+		if (col.GetComponent<Interactor>()) {
+			//levelRenderController.HideAll();
+			MakeVisibleToMainCamera();
+		}
+	}
+
+	void OnTriggerExit(Collider col) {
+		Debug.Log("sup?");
+		if (col.GetComponent<Interactor>()) {
+			//levelRenderController.HideAll();
+			HideFromMainCamera();
+		}
 	}
 }
