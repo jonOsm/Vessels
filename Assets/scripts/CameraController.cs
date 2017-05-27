@@ -39,10 +39,8 @@ public class CameraController : MonoBehaviour {
 		Debug.DrawLine(transform.position, player.transform.position, Color.green, 0, false);
 		var playerInView = Physics.Linecast(this.transform.position, player.transform.position, out hit, playerVisibleMask);
 		if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Player")) {
-			Debug.Log("hit");
 			player.GetComponentInChildren<Outline>().eraseRenderer = true;
 		} else {
-			Debug.Log("not hit");
 			player.GetComponentInChildren<Outline>().eraseRenderer = false;
 		}
 	}
