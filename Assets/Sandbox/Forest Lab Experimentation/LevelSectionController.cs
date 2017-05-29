@@ -44,7 +44,7 @@ public class LevelSectionController : MonoBehaviour {
 	}
 
 	private void StopOngoingTransitions() {
-		foreach(IEnumerator transition in ongoingTransitions) {
+		foreach(Coroutine transition in ongoingTransitions) {
 			StopCoroutine(transition);
 		}
 	}
