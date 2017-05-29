@@ -23,9 +23,9 @@ public class LevelSectionController : MonoBehaviour {
 
 	private void ChangeDescendantsLayer(Transform parent, LayerMask newLayer) {
 		foreach(Transform child in parent) {
-			child.gameObject.layer = newLayer;
-			IEnumerator makePartHidden = ChangePartLayer(child, newLayer);
-			StartCoroutine(makePartHidden);
+			//child.gameObject.layer = newLayer;
+			IEnumerator changeLayer = ChangePartLayer(child, newLayer);
+			StartCoroutine(changeLayer);
 
 			if (child.childCount > 0) {
 				ChangeDescendantsLayer(child, newLayer);
@@ -35,16 +35,10 @@ public class LevelSectionController : MonoBehaviour {
 	public void MakeVisibleToMainCamera() {
 		isHiddenFromMainCamera = false;
 		gameObject.layer = visibleLayer;
-		foreach(Transform child in transform) {
-			//child.gameObject.layer = visibleLayer;
-			//IEnumerator makePartVisible = ChangePartLayer(child, visibleLayer);
-			IEnumerator makePartVisible = EnablePart(child);
-			StartCoroutine(makePartVisible);
-		}
+		ChangeDescendantsLayer(transform, visibleLayer);
 	}
 
 	void OnTriggerEnter(Collider col) {
-		Debug.Log("sup?");
 		if (col.GetComponent<Interactor>()) {
 			//levelRenderController.HideAll();
 			MakeVisibleToMainCamera();
@@ -52,7 +46,6 @@ public class LevelSectionController : MonoBehaviour {
 	}
 
 	void OnTriggerExit(Collider col) {
-		Debug.Log("sup?");
 		if (col.GetComponent<Interactor>()) {
 			//levelRenderController.HideAll();
 			HideFromMainCamera();
