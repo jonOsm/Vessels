@@ -11,14 +11,14 @@ public class LevelRenderController : MonoBehaviour {
 		levelSections = FindObjectsOfType<LevelSectionController>();
 		foreach(LevelSectionController section in levelSections) {
 			if(section.isHiddenFromMainCamera) {
-				section.HideFromMainCamera();	
+				section.HideDescendantsFromMainCamera();	
 			}
 		}
 	}
 
 	public void HideAll() {
 		foreach (LevelSectionController section in levelSections) {
-				section.HideFromMainCamera();
+				section.MakeDescendantsVisible();
 		}
 	}	
 }

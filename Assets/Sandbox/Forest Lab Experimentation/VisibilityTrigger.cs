@@ -19,10 +19,10 @@ public class VisibilityTrigger : MonoBehaviour {
 		if (col.gameObject.GetComponent<Interactor>()) {
 			foreach (LevelSectionController section in sectionsToToggle) {
 				if (section.isHiddenFromMainCamera) {
-					section.MakeVisibleToMainCamera();
+					section.MakeDescendantsVisible();
 				}
 				else {
-					section.HideFromMainCamera();
+					section.HideDescendantsFromMainCamera();
 				}
 			}
 		}
